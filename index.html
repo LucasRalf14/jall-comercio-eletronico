@@ -1,45 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JALL</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JALL E-commerce</title>
 
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
-  <div class="header">
-  <div class="container">
-    <div class="navbar">
-        <div class="logo">
-            <img src="images/logo.png" alt="Logo" width="125px">
+    <div class="header">
+        <div class="container">
+            <div class="navbar"> <!-- Barra de Navegação e Logo -->
+                <div class="logo">
+                    <img src="images/logo.png" alt="Logo" width="125px">
+                </div>
+                <nav> <!-- Opções de Navegação -->
+                    <ul>
+                        <li><a href=""></a>Home</li>
+                        <li><a href=""></a>Produtos</li>
+                        <li><a href=""></a>Sobre</li>
+                        <li><a href=""></a>Contatos</li>
+                        <li><a href=""></a>Acesso</li>
+                    </ul>
+                </nav>
+                <img src="images/cart.png" alt="Carrinho de compras" width="30px" height="30px">
+            </div>
+
+            <div class="row"> <!-- Colunas com conteúdos dispostos lateralmente -->
+                <div class="col-2">
+                    <h1>Adicionar algum texto chamativo aqui!</h1>
+                    <p>Adicionar algum texto secundário aqui.</p>
+                    <a href="" class="btn">Explore agora &#8594;</a>
+                </div>
+                <div class="col-2">
+                    <img src="images/image1.png" alt="add descrição">
+                </div>
+            </div>
         </div>
-        <nav>
-            <ul>
-                <li><a href=""></a>Home</li>
-                <li><a href=""></a>Produtos</li>
-                <li><a href=""></a>Sobre</li>
-                <li><a href=""></a>Contatos</li>
-                <li><a href=""></a>Acesso</li>
-            </ul>
-        </nav>
-        <img src="images/cart.png" alt="Carrinho de compras" width="30px" height="30px">
     </div>
 
-    <div class="row">
-        <div class="col-2">
-            <h1>Adicionar algum texto chamativo aqui!</h1>
-            <p>Adicionar algum texto secundário aqui.</p>
-            <a href="" class="btn">Explore agora &#8594;</a>
+    <!----- Categorias em Destaque ----->
+    <div class="categories">
+        <div class="destaques-container">
+            <div class="row">
+                <div class="col-3">
+                    <img src="images/category-1.jpg" alt="Add descrição">
+                </div>
+
+                <div class="col-3">
+                    <img src="images/category-1.jpg" alt="Add descrição">
+                </div>
+
+                <div class="col-3">
+                    <img src="images/category-1.jpg" alt="Add descrição">
+                </div>
+            </div>
         </div>
-        <div class="col-2">
-            <img src="images/image1.png" alt="add descrição">
+
+    </div>
+
+    <!----- Produtos em Destaque ----->
+    <div class="destaques-container">
+        <h2 class="title">Produtos em Destaque</h2>
+        <div class="row">
+            <div class="col-4">
+                <img src="images/product-1.jpg" alt="Add Descrição">
+                <h4>Descrição do produto</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$Preço</p>
+            </div>
+
+            <div class="col-4">
+                <img src="images/product-1.jpg" alt="Add Descrição">
+                <h4>Descrição do produto</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$Preço</p>
+            </div>
+
+            <div class="col-4">
+                <img src="images/product-1.jpg" alt="Add Descrição">
+                <h4>Descrição do produto</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                </div>
+                <p>$Preço</p>
+            </div>
+
+            <div class="col-4">
+                <img src="images/product-1.jpg" alt="Add Descrição">
+                <h4>Descrição do produto</h4>
+                <div class="rating">
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+                <p>$Preço</p>
+            </div>
         </div>
     </div>
-  </div>
+
+<!----- Produtos Recentes ----->
+<div class="destaques-container">
+    <h2 class="title">Produtos Recentes</h2>
+    <div class="row">
+        <div class="col-4">
+            <img src="images/product-1.jpg" alt="Add Descrição">
+            <h4>Descrição do produto</h4>
+            <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+            </div>
+            <p>$Preço</p>
+        </div>
+
+        <div class="col-4">
+            <img src="images/product-1.jpg" alt="Add Descrição">
+            <h4>Descrição do produto</h4>
+            <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+            </div>
+            <p>$Preço</p>
+        </div>
+
+        <div class="col-4">
+            <img src="images/product-1.jpg" alt="Add Descrição">
+            <h4>Descrição do produto</h4>
+            <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-half-o"></i>
+            </div>
+            <p>$Preço</p>
+        </div>
+
+        <div class="col-4">
+            <img src="images/product-1.jpg" alt="Add Descrição">
+            <h4>Descrição do produto</h4>
+            <div class="rating">
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star"></i>
+                <i class="fa fa-star-o"></i>
+            </div>
+            <p>$Preço</p>
+        </div>
+    </div>
 </div>
-  
+
+
 </body>
+
 </html>
