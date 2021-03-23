@@ -36,7 +36,7 @@ body {
     margin-right: 20px;
 }
 
-a {
+.navbar nav ul li a {
     text-decoration: none;
     color: #555;
 }
@@ -188,20 +188,20 @@ small {
 
 /* ---- Marcas Patrocinadores ---*/
 .brands {
-    margin: 100px auto;;
+    margin: 100px auto;
 }
 
-.col-5 {
+.col-6 {
     width: 160px;
 }
 
-.col-5 img {
+.col-6 img {
     width: 100%;
     cursor: pointer;
     filter: grayscale(100%);
 }
 
-.col-5 img:hover {
+.col-6 img:hover {
     filter: grayscale(0%);
 }
 
@@ -248,4 +248,10 @@ small {
 
 ul {
     list-style-type: none;
+}
+
+.menu-icon {
+    width: 28px;
+    margin-left: 20px;
+    display: none;
 }

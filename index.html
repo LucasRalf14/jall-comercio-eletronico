@@ -8,6 +8,7 @@
     <title>JALL E-commerce</title>
 
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="mediaQuery.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -21,7 +22,7 @@
                     <img src="images/logo.png" alt="Logo" width="125px">
                 </div>
                 <nav> <!-- Opções de Navegação -->
-                    <ul>
+                    <ul id="MenuItems">
                         <li><a href=""></a>Home</li>
                         <li><a href=""></a>Produtos</li>
                         <li><a href=""></a>Sobre</li>
@@ -30,6 +31,7 @@
                     </ul>
                 </nav>
                 <img src="images/cart.png" alt="Carrinho de compras" width="30px" height="30px">
+                <img src="images/menu.png" alt="Menu" class="menu-icon" onclick="menutoggle()">
             </div>
 
             <div class="row"> <!-- Colunas com conteúdos dispostos lateralmente -->
@@ -203,23 +205,23 @@
 <div class="brands">
     <div class="small-container">
         <div class="row">
-            <div class="col-5">
+            <div class="col-6">
                 <img src="images/logo-marcas.png" alt="Add descrição">
             </div>
 
-            <div class="col-5">
+            <div class="col-6">
                 <img src="images/logo-marcas.png" alt="Add descrição">
             </div>
 
-            <div class="col-5">
+            <div class="col-6">
                 <img src="images/logo-marcas.png" alt="Add descrição">
             </div>
 
-            <div class="col-5">
+            <div class="col-6">
                 <img src="images/logo-marcas.png" alt="Add descrição">
             </div>
 
-            <div class="col-5">
+            <div class="col-6">
                 <img src="images/logo-marcas.png" alt="Add descrição">
             </div>
         </div>
@@ -261,6 +263,8 @@
         </div>
     </div>
 </div>
+
+<script src="script.js"></script>
 
 </body>
 
