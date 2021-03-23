@@ -58,7 +58,7 @@ p {
 }
 
 .col-2 img {
-    max-width: 100%;
+    max-width: 80%;
     padding: 50px 0;
 }
 
@@ -170,4 +170,82 @@ h4 {
 
 .col-5 img {
     width: 80%;
+}
+
+.offers {
+    background: radial-gradient(#fff, #b8abeb);
+    margin-top: 80px;
+    padding: 30px 0;
+}
+
+.col-2 .offers-img {
+    padding: 50px;
+}
+
+small {
+    color: #555;
+}
+
+/* ---- Marcas Patrocinadores ---*/
+.brands {
+    margin: 100px auto;;
+}
+
+.col-5 {
+    width: 160px;
+}
+
+.col-5 img {
+    width: 100%;
+    cursor: pointer;
+    filter: grayscale(100%);
+}
+
+.col-5 img:hover {
+    filter: grayscale(0%);
+}
+
+/* Rodapé */
+.rodape {
+    background: #000;
+    color: #8a8a8a;
+    font-size: 14px;
+    padding: 60px 0 20px;
+}
+
+.rodape p {
+    color: #8a8a8a;
+}
+
+.rodape h3 {
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.rodape-col-1, .rodape-col-2, .rodape-col-3, .rodape-col-4 {
+    min-width: 250px;
+    margin-bottom: 20px;
+}
+
+.rodape-col-1 {
+    flex-basis: 30%;
+}
+
+.rodape-col-2 {
+    flex: 1;
+    text-align: center;
+}
+
+.rodape-col-2 img {
+    width: 180px;
+    margin-bottom: 20px;
+}
+
+.rodape-col-3, .rodape-col-4 {
+    flex-basis: 12%;
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
 }
