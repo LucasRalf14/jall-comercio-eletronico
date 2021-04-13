@@ -58,14 +58,17 @@
             <form method="post">
                 <div class="row">
                     <div class="col-lg-4 col-md-6">
-                        <input type="text" name="nome" id="nome" placeholder="Seu Nome" required>
+                        <input type="text" name="nome" id="nome" placeholder="Seu Nome">
                     </div>
                     <div class="col-lg-4 col-md-6">
-                        <input type="email" name="email" id="email" placeholder="Seu Email" requires>
+                        <input type="email" name="email" id="email" placeholder="Seu Email">
                     </div>
                     <div class="col-lg-12 text-center">
                         <textarea name="mensagem" id="mensagem" placeholder="Sua Mensagem"></textarea>
                         <button name="btn-enviar-email" id="btn-enviar-email" type="button" class="site-btn">ENVIAR MENSAGEM</button>
+                    </div>
+
+                    <div id="msgEnviada" class="col-md-12 text-center mt-3">
                     </div>
                 </div>
             </form>
@@ -76,7 +79,3 @@
 <?php
     require_once("rodape.php");
 ?>
-
-</body>
-
-</html>

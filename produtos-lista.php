@@ -9,6 +9,26 @@ require_once("cabecalho.php");
             <div class="col-lg-3 col-md-5">
                 <div class="sidebar">
                     <div class="sidebar__item">
+                        <h4>Filtrar por Valores</h4>
+                        <div class="price-range-wrap">
+                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="10" data-max="540">
+                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
+                            </div>
+                            <div class="range-slider">
+                                <div class="price-input">
+                                    <form method="get" action="produtos-lista.php">
+                                        <input type="text" id="minamount">
+                                        <input type="text" id="maxamount">
+                                        <a class="text-dark" type="submit">
+                                            <i class="fa fa-search ml-2"></i></a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__item">
                         <h4>Departamentos</h4>
                         <ul>
                             <li><a href="#">HARDWARE</a></li>
@@ -36,26 +56,6 @@ require_once("cabecalho.php");
                             <li><a href="#">MOUSES</a></li>
                             <li><a href="#">HEADSET</a></li>
                         </ul>
-                    </div>
-                    <div class="sidebar__item">
-                        <h4>Filtrar por Valores</h4>
-                        <div class="price-range-wrap">
-                            <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="10" data-max="540">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                                <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-                            </div>
-                            <div class="range-slider">
-                                <div class="price-input">
-                                    <form method="get" action="produtos-lista.php">
-                                        <input type="text" id="minamount">
-                                        <input type="text" id="maxamount">
-                                        <a class="text-dark" type="submit">
-                                            <i class="fa fa-search ml-2"></i></a>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

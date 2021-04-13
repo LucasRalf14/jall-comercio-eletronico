@@ -44,9 +44,7 @@ require_once("config.php");
         </div>
         <div class="humberger__menu__cart">
             <ul>
-                <!-- <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li> -->
-                <!-- Ícone de Favoritos -->
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
             </ul>
             <div class="header__cart__price">item: <span>R$150.00</span></div>
             <div class="header__top__right__auth ml-4">
@@ -59,16 +57,16 @@ require_once("config.php");
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.php">Início</a></li>
-                <li><a href="#">Categorias</a></li>
-                <li><a href="#">Produtos</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="#">Lista de Produtos</a></li>
-                        <li><a href="#">Carrinho de Compras</a></li>
-                        <li><a href="#">Check Out</a></li>
+                <li><a href="./produtos.php">Promoções</a></li>
+                <li><a href="./produtos-lista.php">Produtos</a></li>
+                <li><a href="./carrinho.php">Carrinho de Compras</a></li>
+                <li><a href="./contato.php">Contatos</a></li>
+                <!-- <ul class="header__menu__dropdown">
+                        <li><a href="./produtos-lista">Lista de Produtos</a></li>
+                        
+                        <li><a href="./checkout.php">Check Out</a></li>
                     </ul>
-                </li>
-                <li><a href="#">Carrinho</a></li>
-                <li><a href="#">Contatos</a></li>
+                </li> -->
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -128,6 +126,11 @@ require_once("config.php");
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="./index.php">Início</a></li>
+                            <li><a href="./produtos.php">Promoções</a></li>
+                            <li><a href="./produtos-lista.php">Produtos</a></li>
+                            <li><a href="./carrinho.php">Compras</a></li>
+                            <li><a href="./contato.php">Contatos</a></li>
+                            <!-- <li class="active"><a href="./index.php">Início</a></li>
                             <li><a href="#">Categorias</a></li>
                             <li><a href="#">Produtos</a>
                                 <ul class="header__menu__dropdown">
@@ -136,16 +139,16 @@ require_once("config.php");
                                     <li><a href="#">Check Out</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Contatos</a></li>
+                            <li><a href="#">Contatos</a></li> -->
                         </ul>
                     </nav>
                 </div>
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="carrinho.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>R$150.00</span></div>
+                        <div class="header__cart__price">item: <span>R$150,00</span></div>
                     </div>
                 </div>
             </div>
