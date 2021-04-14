@@ -1,5 +1,12 @@
 <?php
-require_once("../config.php");
+    require_once("../conexao.php");
+    
+    //VERIFICAR SE EXISTE ALGUM CADASTRO NO BANCO, SE NÃO TIVER CADASTRA USUARIO ADMINISTRADOR
+    $res = $pdo->query("SELECT * FROM usuario");
+    $dados = $res->fetchAll(PDO::FETCH_ASSOC);
+    if(@count($dados) == 0){
+        $res = $pdo->query("INSERT into usuario (nome, cpf, senha, nivel) values ('Administrador', '000.000.000-00', '123', 'Admin')");
+    }
 ?>
 
 <!DOCTYPE html>
