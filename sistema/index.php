@@ -4,8 +4,10 @@
     //VERIFICAR SE EXISTE ALGUM CADASTRO NO BANCO, SE NÃO TIVER CADASTRA USUARIO ADMINISTRADOR
     $res = $pdo->query("SELECT * FROM usuario");
     $dados = $res->fetchAll(PDO::FETCH_ASSOC);
+    $senha_crip = md5('123');
     if(@count($dados) == 0){
-        $res = $pdo->query("INSERT into usuario (nome, cpf, senha, nivel) values ('Administrador', '000.000.000-00', '123', 'Admin')");
+        $res = $pdo->query("INSERT into usuario (nome, cpf, senha, senha_crip, nivel) 
+        values ('Administrador', '000.000.000-00', '123', '$senha_crip', 'Admin')");
     }
 ?>
 
@@ -44,11 +46,11 @@
                         <form action="" method="post" name="login">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Insira o seu email">
+                                <input type="email" name="email_login" class="form-control" id="email_login" aria-describedby="emailHelp" placeholder="Insira o seu email">
                             </div>
                             <div class="form-group">
                                 <label for="senha">Senha</label>
-                                <input type="password" name="senha" id="senha" class="form-control" aria-describedby="emailHelp" placeholder="Insira a sua senha">
+                                <input type="password" name="senha_login" id="senha_login" class="form-control" aria-describedby="emailHelp" placeholder="Insira a sua senha">
                             </div>
                             <div class="form-group">
                                 <p class="text-center">Ao se cadastrar você concorda com os nossos<br /> <a href="#">Termos de Uso</a></p>
@@ -78,7 +80,7 @@
 
 </html>
 
-<!-- Modal Cadastro -->
+<!-- Modal -->
 <div class="modal fade" id="modalCadastro" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -111,9 +113,11 @@
                         <input type="password" class="form-control" name="conf-senha" id="conf-senha" placeholder="Insira novamente a sua senha">
                     </div>
             </div>
+            <small><div id="div-mensagem"></div></small>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Cadastrar</button>
+            
+                <button type="button" id="btn-fechar-cadastrar" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" id="btn-cadastrar" class="btn btn-info">Cadastrar</button>
             </div>
             </form>
         </div>
@@ -134,7 +138,7 @@
                 <form method="post">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Insira o seu email">
+                        <input type="email" class="form-control" name="email-recuperar" id="email-recuperar" placeholder="Insira o seu email">
                     </div>
             </div>
             <div class="modal-footer">
@@ -145,6 +149,33 @@
         </div>
     </div>
 </div>
+
+<!-- btn-primary cadastrar-->
+<script type="text/javascript">
+    $('#btn-cadastrar').click(function(event){
+        event.preventDefault();
+        
+        $.ajax({
+            url:"cadastrar.php",
+            method: "post",
+            data: $('form').serialize(),
+            dataType: "text",
+            success: function(msg){
+              if(msg.trim() === 'Cadastrado com Sucesso!'){
+                $('#div-mensagem').addClass('text-success')
+                $('#div-mensagem').text(msg);
+                $('#btn-fechar-cadastrar').click();
+                $('#email_login').val(document.getElementByID('email').value);
+                $('#senha_login').val(document.getElementByID('email').value);
+                }
+                else{
+                $('#div-mensagem').addClass('text-danger')
+                $('#div-mensagem').text(msg);
+              }
+            }
+        })
+    })
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 <script src="../js/mascara.js"></script>
