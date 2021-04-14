@@ -11,4 +11,10 @@ $texto_destaque = 'Inserir alguma informação pertinente';
 $endereco_loja = 'Inserir endereço da loja';
 $texto_cupom = 'Insira o seu código de cupom';
 
+
+// VARIAVEIS DO BANCO DE DADOS
+$servidor = 'localhost';
+$usuario = 'root';
+$senha = '';
+$banco = 'jalldb'
 ?>

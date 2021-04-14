@@ -68,7 +68,7 @@
                         <button name="btn-enviar-email" id="btn-enviar-email" type="button" class="site-btn">ENVIAR MENSAGEM</button>
                     </div>
 
-                    <div class="col-md-12 text-center mt-3" id="div-mensagem"></div>
+                    <div class="col-md-12 text-center mt-3 text-info" id="div-mensagem"></div>
                 </div>
             </form>
         </div>
@@ -83,7 +83,9 @@
     $('#btn-enviar-email').click(function(event){
         event.preventDefault();
         $('#div-mensagem').addClass('text-info')
-        $('#div-mensagem').text('Enviando...');
+        $('#div-mensagem').removeClass('text-danger')
+        $('#div-mensagem').removeClass('text-success')
+        $('#div-mensagem').text('Enviando...')
         $.ajax({
             url:"enviar.php",
             method: "post",
@@ -91,15 +93,26 @@
             dataType: "text",
             success: function(msg){
               if(msg.trim() === 'Enviado com Sucesso!'){
-                  $('#div-mensagem').addClass('text-success')
-                  $('#div-mensagem').text(msg);
-                  $('#email').val('');
-                  $('#nome').val('');
-                  $('#mensagem').val('');
-              }else{
-                  $('#div-mensagem').addClass('text-danger')
-                  $('#div-mensagem').text('Deu erro ao enviar o formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você esta em um servidor local!');
-                  //$('#div-mensagem').text(msg);
+                $('#div-mensagem').removeClass('text-info')  
+                $('#div-mensagem').addClass('text-success')
+                $('#div-mensagem').text(msg);
+                $('#email').val('');
+                $('#nome').val('');
+                $('#mensagem').val('');
+              }else if(msg.trim() === 'Preencha o Campo Nome'){  
+                $('#div-mensagem').addClass('text-danger')
+                $('#div-mensagem').text(msg);
+              }else if(msg.trim() === 'Preencha o Campo Email'){  
+                $('#div-mensagem').addClass('text-danger')
+                $('#div-mensagem').text(msg);
+              }else if(msg.trim() === 'Preencha o Campo Mensagem'){  
+                $('#div-mensagem').addClass('text-danger')
+                $('#div-mensagem').text(msg);
+              }
+              else{
+                $('#div-mensagem').addClass('text-danger')
+                $('#div-mensagem').text('Deu erro ao enviar o formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você esta em um servidor local!');
+                //$('#div-mensagem').text(msg);
               }
             }
         })
