@@ -43,13 +43,13 @@
                                 <h1>Login</h1>
                             </div>
                         </div>
-                        <form action="" method="post" name="login">
+                        <form action="autenticar.php" method="post" name="login">
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" name="email_login" class="form-control" id="email_login" aria-describedby="emailHelp" placeholder="Insira o seu email">
+                            <label for="exampleInputEmail1">Email ou CPF</label>
+                                <input type="text" name="email_login" class="form-control" id="email_login" aria-describedby="emailHelp" placeholder="Insira o seu email">
                             </div>
                             <div class="form-group">
-                                <label for="senha">Senha</label>
+                            <label for="exampleInputEmail1">Senha</label>
                                 <input type="password" name="senha_login" id="senha_login" class="form-control" aria-describedby="emailHelp" placeholder="Insira a sua senha">
                             </div>
                             <div class="form-group">
@@ -112,8 +112,9 @@
                         <label for="conf-senha">Confirmar Senha</label>
                         <input type="password" class="form-control" name="conf-senha" id="conf-senha" placeholder="Insira novamente a sua senha">
                     </div>
-            </div>
+            
             <small><div id="div-mensagem"></div></small>
+            </div>
             <div class="modal-footer">
             
                 <button type="button" id="btn-fechar-cadastrar" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -129,7 +130,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Recuperar Senha</h5>
+                <h5 cl ass="modal-title" id="exampleModalLabel">Recuperar Senha</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -141,9 +142,11 @@
                         <input type="email" class="form-control" name="email-recuperar" id="email-recuperar" placeholder="Insira o seu email">
                     </div>
             </div>
+
+            <small><div id="div-mensagem-rec"></div></small>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary">Recuperar</button>
+                <button type="button" id="btn-recuperar" class="btn btn-primary">Recuperar</button>
             </div>
             </form>
         </div>
@@ -162,16 +165,45 @@
             dataType: "text",
             success: function(msg){
               if(msg.trim() === 'Cadastrado com Sucesso!'){
+                  
                 $('#div-mensagem').addClass('text-success')
                 $('#div-mensagem').text(msg);
                 $('#btn-fechar-cadastrar').click();
                 $('#email_login').val(document.getElementByID('email').value);
-                $('#senha_login').val(document.getElementByID('email').value);
+                $('#senha_login').val(document.getElementByID('senha').value);
                 }
                 else{
                 $('#div-mensagem').addClass('text-danger')
                 $('#div-mensagem').text(msg);
               }
+            }
+        })
+    })
+</script>
+
+<script type="text/javascript">
+    $('#btn-recuperar').click(function(event){
+        event.preventDefault();
+        
+        $.ajax({
+            url:"recuperar.php",
+            method: "post",
+            data: $('form').serialize(),
+            dataType: "text",
+            success: function(msg){
+                if(msg.trim() === 'Senha Enviada para o Email!'){
+                    $('#div-mensagem-rec').addClass('text-success')
+                    $('#div-mensagem-rec').text(msg);
+                }else if(msg.trim() === 'Preencha o campo email!'){
+                    $('#div-mensagem-rec').addClass('text-success')
+                    $('#div-mensagem-rec').text(msg);
+                }else if(msg.trim() === 'Este email não está cadastrado!'){
+                    $('#div-mensagem-rec').addClass('text-success')
+                    $('#div-mensagem-rec').text(msg);
+                }else{
+                    $('#div-mensagem-rec').addClass('text-danger')
+                    $('#div-mensagem-rec').text('Deu erro ao enviar o formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você está em um servidor local');
+                }
             }
         })
     })
