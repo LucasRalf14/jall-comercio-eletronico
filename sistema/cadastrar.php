@@ -33,17 +33,36 @@ if($senha != $_POST['conf-senha']){
 $res = $pdo->query("SELECT * FROM usuario where cpf = '$_POST[cpf]'");
 $dados = $res->fetchAll(PDO::FETCH_ASSOC);
 if(@count($dados) == 0){
+    
     $res = $pdo->prepare("INSERT into usuario (nome, cpf, email, senha, senha_crip, nivel) 
     values (:nome, :cpf, :email, :senha, :senha_crip, :nivel)");
     $res->bindValue(":nome", $nome);
     $res->bindValue(":email", $email);
-    $res->bindValue(":cpf", $senha);
+    $res->bindValue(":cpf", $cpf);
     $res->bindValue(":senha", $senha);
     $res->bindValue(":senha_crip", $senha_crip);
     $res->bindValue(":nivel", 'Cliente');
+    
+    $res->execute();
 
+    $res = $pdo->prepare("INSERT into cliente (nome, cpf, email) values (:nome, :cpf, :email)");
+    $res->bindValue(":nome", $nome);
+    $res->bindValue(":email", $email);
+    $res->bindValue(":cpf", $cpf);
 
     $res->execute();
+
+    $res = $pdo->query("SELECT * FROM email where email = '$_POST[email]'");
+    $dados = $res->fetchAll(PDO::FETCH_ASSOC);
+    if(@count($dados) == 0){
+    $res = $pdo->prepare("INSERT into email (nome, email, ativo) values (:nome, :email, :ativo)");
+
+    $res->bindValue(":nome", $nome);
+    $res->bindValue(":email", $email);
+    $res->bindValue(":ativo", "Sim");
+    $res->execute();
+}
+
     echo 'Cadastrado com Sucesso!';
 }else {
     echo 'CPF já Cadastrado!';
