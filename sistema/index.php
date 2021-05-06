@@ -98,7 +98,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Insira o seu email">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Insira o seu email">
                     </div>
                     <div class="form-group">
                         <label for="cpf">CPF</label>
@@ -187,23 +187,29 @@
         
         $.ajax({
             url:"recuperar.php",
-            method: "post",
+            method:"post",
             data: $('form').serialize(),
             dataType: "text",
             success: function(msg){
                 if(msg.trim() === 'Senha Enviada para o Email!'){
+                    
                     $('#div-mensagem-rec').addClass('text-success')
                     $('#div-mensagem-rec').text(msg);
-                }else if(msg.trim() === 'Preencha o campo email!'){
-                    $('#div-mensagem-rec').addClass('text-success')
-                    $('#div-mensagem-rec').text(msg);
-                }else if(msg.trim() === 'Este email não está cadastrado!'){
-                    $('#div-mensagem-rec').addClass('text-success')
-                    $('#div-mensagem-rec').text(msg);
-                }else{
+                                        
+                    }else if(msg.trim() === 'Preencha o Campo Email!'){
+                      $('#div-mensagem-rec').addClass('text-success')
+                      $('#div-mensagem-rec').text(msg);
+
+                    }else if(msg.trim() === 'Este email não está cadastrado!'){
+                      $('#div-mensagem-rec').addClass('text-success')
+                      $('#div-mensagem-rec').text(msg);
+                    }
+                 else{
                     $('#div-mensagem-rec').addClass('text-danger')
-                    $('#div-mensagem-rec').text('Deu erro ao enviar o formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você está em um servidor local');
-                }
+                    $('#div-mensagem-rec').text('Deu erro ao Enviar o Formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você está em um servidor local');
+                   
+
+                 }
             }
         })
     })
