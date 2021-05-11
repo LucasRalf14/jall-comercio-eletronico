@@ -115,7 +115,7 @@
                     <?php if(@$imagem2 != ""){ ?>
                     	 <img src="../../img/categorias/<?php echo $imagem2 ?>" width="200" height="200" id="target">
                  	<?php  }else{ ?>
-                    <img src="../../img/produtos/sem-foto.jpg" width="200" height="200" id="target">
+                    <img src="../../img/categorias/sem-foto.jpg" width="200" height="200" id="target">
                 	<?php } ?>
 
 
@@ -146,6 +146,38 @@
     </div>
 </div>
 
+<!-- Modal Deletar -->
+<div class="modal" id="modal-deletar" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Excluir Registro</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <p>Deseja realmente Excluir este Registro?</p>
+
+                <div align="center" id="mensagem_excluir" class="">
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-excluir">Cancelar</button>
+                <form method="post">
+
+                    <input type="hidden" id="id"  name="id" value="<?php echo @$_GET['id'] ?>" required>
+
+                    <button type="button" id="btn-deletar" name="btn-deletar" class="btn btn-danger">Excluir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php 
     if (@$_GET["funcao"] != null && @$_GET["funcao"] == "novo") {
         echo "<script>$('#modalDados').modal('show');</script>";
@@ -154,7 +186,115 @@
     if (@$_GET["funcao"] != null && @$_GET["funcao"] == "editar") {
         echo "<script>$('#modalDados').modal('show');</script>";
     }
+
+    if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
+        echo "<script>$('#modal-deletar').modal('show');</script>";
+    }
 ?>
+
+<!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM IMAGEM -->
+<script type="text/javascript">
+    $("#form").submit(function () {
+        var pag = "<?=$pag?>";
+        event.preventDefault();
+        var formData = new FormData(this);
+
+        $.ajax({
+            url: pag + "/inserir.php",
+            type: 'POST',
+            data: formData,
+
+            success: function (mensagem) {
+
+                $('#mensagem').removeClass()
+
+                if (mensagem.trim() == "Salvo com Sucesso!!") {
+                    
+                    //$('#nome').val('');
+                    //$('#cpf').val('');
+                    $('#btn-fechar').click();
+                    window.location = "index.php?pag="+pag;
+
+                } else {
+
+                    $('#mensagem').addClass('text-danger')
+                }
+
+                $('#mensagem').text(mensagem)
+
+            },
+
+            cache: false,
+            contentType: false,
+            processData: false,
+            xhr: function () {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Avalia se tem suporte a propriedade upload
+                    myXhr.upload.addEventListener('progress', function () {
+                        /* faz alguma coisa durante o progresso do upload */
+                    }, false);
+                }
+                return myXhr;
+            }
+        });
+    });
+</script>
+
+<!--AJAX PARA EXCLUSÃO DOS DADOS -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var pag = "<?=$pag?>";
+        $('#btn-deletar').click(function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: pag + "/excluir.php",
+                method: "post",
+                data: $('form').serialize(),
+                dataType: "text",
+                success: function (mensagem) {
+
+                    if (mensagem.trim() === 'Excluído com Sucesso!!') {
+
+
+                        $('#btn-cancelar-excluir').click();
+                        window.location = "index.php?pag=" + pag;
+                    }
+
+                    $('#mensagem_excluir').text(mensagem)
+
+
+
+                },
+
+            })
+        })
+    })
+</script>
+
+<!--SCRIPT PARA CARREGAR IMAGEM -->
+<script type="text/javascript">
+
+    function carregarImg() {
+
+        var target = document.getElementById('target');
+        var file = document.querySelector("input[type=file]").files[0];
+        var reader = new FileReader();
+
+        reader.onloadend = function () {
+            target.src = reader.result;
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+
+
+        } else {
+            target.src = "";
+        }
+    }
+
+</script>
 
 <!-- Script para não receber "ordem" -->
 <script type="text/javascript">
