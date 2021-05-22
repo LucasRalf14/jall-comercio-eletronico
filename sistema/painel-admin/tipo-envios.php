@@ -1,6 +1,6 @@
 <?php
 
-$pag = "categorias";
+$pag = "tipo-envios";
 require_once("../../conexao.php");
 
 //VERIFICAR SE O USUÁRIO ESTÁ AUTENTICADO, SE NÃO ESTIVER RETORNA PARA A INDEX
@@ -11,7 +11,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
 ?>
 
 <div class="row mt-4 mb-4">
-    <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Nova Categoria</a>
+    <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Novo Envio</a>
     <a type="button" class="btn-primary btn-sm ml-3 d-block d-sm-none" href="index.php?pag=<?php echo $pag ?>&funcao=novo">+</a>
 </div>
 
@@ -23,34 +23,25 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Itens</th>
-                        <th>Imagem</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php
-                    $query = $pdo->query("SELECT * FROM categorias order by id_categorias desc ");
+                    $query = $pdo->query("SELECT * FROM envios order by id_envio desc");
                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
                     for ($i = 0; $i < count($res); $i++) {
                         foreach ($res[$i] as $key => $value) {
                         }
 
-                        $nome = $res[$i]['nome'];
-                        $imagem = $res[$i]['imagem'];
-                        $id = $res[$i]['id_categorias'];
-
-                        $query2 = $pdo->query("SELECT * FROM sub_categorias where id_categoria = '$id'");
-                        $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-                        $itens = @count($res2);
+                        $nome = $res[$i]['tipo'];
+                        $id = $res[$i]['id_envio'];
                     ?>
 
                         <tr>
                             <td><?php echo $nome ?></td>
-                            <td><?php echo $itens ?></td>
-                            <td><img src="../../img/categorias/<?php echo $imagem ?>" width="50"></td>
                             <td>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
@@ -72,11 +63,10 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                     $titulo = "Editar Registro";
                     $id2 = $_GET['id'];
 
-                    $query = $pdo->query("SELECT * FROM categorias where id_categorias = '" . $id2 . "' ");
+                    $query = $pdo->query("SELECT * FROM envios where id_envio = '" . $id2 . "' ");
                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-                    $nome2 = $res[0]['nome'];
-                    $imagem2 = $res[0]['imagem'];
+                    $nome2 = $res[0]['tipo'];
                 } else {
                     $titulo = "Inserir Registro";
                 } ?>
@@ -92,19 +82,8 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nome</label>
-                        <input value="<?php echo @$nome2 ?>" type="text" class="form-control" id="nome-cat" name="nome-cat" placeholder="Nome">
+                        <input value="<?php echo @$nome2 ?>" type="text" class="form-control" id="tipo-envio" name="tipo-envio" placeholder="Nome">
                     </div>
-
-                    <div class="form-group">
-                        <label>Imagem</label>
-                        <input type="file" value="<?php echo @$imagem2 ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
-                    </div>
-
-                    <?php if (@$imagem2 != "") { ?>
-                        <img src="../../img/categorias/<?php echo $imagem2 ?>" width="200" height="200" id="target">
-                    <?php  } else { ?>
-                        <img src="../../img/categorias/sem-foto.jpg" width="200" height="200" id="target">
-                    <?php } ?>
 
                     <small>
                         <div id="mensagem"></div>

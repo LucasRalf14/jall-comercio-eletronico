@@ -2,52 +2,58 @@
 
 require_once("../../conexao.php");
 
-$nome = $_POST['nome-usuario'];
-$cpf = $_POST['cpf-usuario'];
-$email = $_POST['email-usuario'];
-$senha = $_POST['senha'];
-$senha_crip = md5($_POST['senha']);
+$nome = $_POST['nome_admin'];
+$cpf = $_POST['cpf_admin'];
+$email = $_POST['email_admin'];
+$senha = $_POST['senha_admin'];
+$senha_crip = md5($_POST['senha_admin']);
 
 $antigo = $_POST['antigo'];
-$id_user = $_POST['txtid'];
+$id_admin = $_POST['txtid'];
 
-if($nome == ""){
-    echo 'Preencha o Campo Nome!';
-    exit();
-}
-if($cpf == ""){
-    echo 'Preencha o Campo CPF!';
-    exit();
-}
-if($email == ""){
-    echo 'Preencha o Campo Email!';
+if ($nome == "") {
+    echo 'Preencha o campo Nome';
     exit();
 }
 
-if($senha != $_POST['conf-senha']){
-    echo 'Senhas são diferentes!';
+if ($cpf == "") {
+    echo 'Preencha o campo CPF';
     exit();
 }
 
-if($cpf != $antigo){
-    $res = $pdo->query("SELECT * FROM usuario where cpf = '$cpf'");
-    $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-    if(@count($dados) > 0){
-        echo ' CPF já cadastrado no banco de dados';
+if ($email == "") {
+    echo 'Preencha o campo Email';
+    exit();
+}
+
+if ($senha == "") {
+    echo 'Preencha o campo Senha';
+    exit();
+}
+
+if ($senha != $_POST['senha_admin']) {
+    echo 'As senhas não coincidem!';
+    exit();
+}
+
+if ($cpf != $antigo) {
+    $result = $pdo->query("SELECT * FROM usuario where cpf  = '$cpf'");
+    $dados = $result->fetchAll(PDO::FETCH_ASSOC);
+
+    if (count($dados) > 0) {
+        echo 'CPF já cadastrado no sistema!';
         exit();
     }
-
 }
 
-$res = $pdo->prepare("UPDATE usuario SET nome = :nome, cpf = :cpf, email = :email, senha = :senha, senha_crip = :senha_crip WHERE id_usuario = :id");
-    $res->bindValue(":nome", $nome);
-    $res->bindValue(":email", $email);
-    $res->bindValue(":cpf", $cpf);
-    $res->bindValue(":senha", $senha);
-    $res->bindValue(":senha_crip", $senha_crip);
-    $res->bindValue(":id", $id_user);
+$result = $pdo->prepare("UPDATE usuario SET nome = :nome, cpf = :cpf, email = :email, senha = :senha, senha_crip = :senha_crip WHERE id_usuario = :id");
+$result->bindValue(":nome", $_POST['nome_admin']);
+$result->bindValue(":cpf", $_POST['cpf_admin']);
+$result->bindValue(":email", $_POST['email_admin']);
+$result->bindValue(":senha", $_POST['senha_admin']);
+$result->bindValue(":senha_crip", $senha_crip);
+$result->bindValue(":id", $id_admin);
 
-    $res->execute();
+$result->execute();
 
-    echo 'Salvo com Sucesso!';
-?>
+echo 'Salvo com Sucesso!';

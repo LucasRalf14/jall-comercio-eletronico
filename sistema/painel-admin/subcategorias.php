@@ -1,6 +1,6 @@
 <?php
 
-$pag = "categorias";
+$pag = "subcategorias";
 require_once("../../conexao.php");
 
 //VERIFICAR SE O USUÁRIO ESTÁ AUTENTICADO, SE NÃO ESTIVER RETORNA PARA A INDEX
@@ -11,7 +11,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
 ?>
 
 <div class="row mt-4 mb-4">
-    <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Nova Categoria</a>
+    <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Nova Sub-Categoria</a>
     <a type="button" class="btn-primary btn-sm ml-3 d-block d-sm-none" href="index.php?pag=<?php echo $pag ?>&funcao=novo">+</a>
 </div>
 
@@ -23,7 +23,8 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                 <thead>
                     <tr>
                         <th>Nome</th>
-                        <th>Itens</th>
+                        <th>Produtos</th>
+                        <th>Categoria</th>
                         <th>Imagem</th>
                         <th>Ações</th>
                     </tr>
@@ -31,7 +32,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
 
                 <tbody>
                     <?php
-                    $query = $pdo->query("SELECT * FROM categorias order by id_categorias desc ");
+                    $query = $pdo->query("SELECT * FROM sub_categorias order by id_sub_cat desc ");
                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
                     for ($i = 0; $i < count($res); $i++) {
@@ -39,24 +40,32 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                         }
 
                         $nome = $res[$i]['nome'];
+                        $categoria = $res[$i]['id_categoria'];
                         $imagem = $res[$i]['imagem'];
-                        $id = $res[$i]['id_categorias'];
+                        $id = $res[$i]['id_sub_cat'];
 
-                        $query2 = $pdo->query("SELECT * FROM sub_categorias where id_categoria = '$id'");
-                        $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
-                        $itens = @count($res2);
+                        //RECUPERANDO O NOME DAS CATEGORIAS ATRAVÉS DO ID
+                        $query2 = $pdo->query("SELECT * FROM categorias WHERE id_categorias = '$categoria'");
+                        $result2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+                        $nomeCategoria = $result2[0]['nome'];
+
+                        //RECUPERANDO A QUANTIDADE DE PRODUTOS RELACIONADOS A SUBCATEGORIA
+                        $query3 = $pdo->query("SELECT * FROM produtos WHERE id_sub_cat = '$id'");
+                        $result3 = $query3->fetchAll(PDO::FETCH_ASSOC);
+                        $itens = @count($result3);
                     ?>
 
                         <tr>
                             <td><?php echo $nome ?></td>
                             <td><?php echo $itens ?></td>
-                            <td><img src="../../img/categorias/<?php echo $imagem ?>" width="50"></td>
+                            <td><?php echo $nomeCategoria ?></td>
+                            <td><img src="../../img/subcategorias/<?php echo $imagem ?>" width="50"></td>
                             <td>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
                             </td>
                         </tr>
-            <?php   }  ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -72,11 +81,12 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                     $titulo = "Editar Registro";
                     $id2 = $_GET['id'];
 
-                    $query = $pdo->query("SELECT * FROM categorias where id_categorias = '" . $id2 . "' ");
+                    $query = $pdo->query("SELECT * FROM sub_categorias where id_sub_cat = '" . $id2 . "' ");
                     $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
                     $nome2 = $res[0]['nome'];
                     $imagem2 = $res[0]['imagem'];
+                    $categoria2 = $res[0]['id_categoria'];
                 } else {
                     $titulo = "Inserir Registro";
                 } ?>
@@ -92,7 +102,34 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Nome</label>
-                        <input value="<?php echo @$nome2 ?>" type="text" class="form-control" id="nome-cat" name="nome-cat" placeholder="Nome">
+                        <input value="<?php echo @$nome2 ?>" type="text" class="form-control form-control-sm" id="nome-cat" name="nome-cat" placeholder="Nome">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Categoria</label>
+                        <select name="categoria" id="categoria" class="form-control form-control-sm">
+                            <?php
+                            if (@$_GET['funcao'] == 'editar') {
+                                $query = $pdo->query("SELECT * FROM categorias WHERE id_categorias = '$categoria2'");
+                                $result = $query->fetchAll(PDO::FETCH_ASSOC);
+                                $nomeCat = $result[0]['nome'];
+
+                                echo "<option value='" . $categoria2 . "'>" . $nomeCat . "</option>";
+                            }
+
+                            $query2 = $pdo->query("SELECT * FROM categorias order by nome asc");
+                            $result2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+
+                            for ($i = 0; $i < count($result2); $i++) {
+                                foreach ($result2[$i] as $key => $value) {
+                                }
+
+                                if (@$nomeCat != $result2[$i]['nome']) {
+                                    echo "<option value='" . $result2[$i]['id_categorias'] . "'>" . $result2[$i]['nome'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -101,9 +138,9 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                     </div>
 
                     <?php if (@$imagem2 != "") { ?>
-                        <img src="../../img/categorias/<?php echo $imagem2 ?>" width="200" height="200" id="target">
+                        <img src="../../img/subcategorias/<?php echo $imagem2 ?>" width="200" height="200" id="target">
                     <?php  } else { ?>
-                        <img src="../../img/categorias/sem-foto.jpg" width="200" height="200" id="target">
+                        <img src="../../img/subcategorias/sem-foto.jpg" width="200" height="200" id="target">
                     <?php } ?>
 
                     <small>
@@ -138,7 +175,6 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                 <div id="mensagem_excluir" text-align="center" class=""></div>
             </div>
 
-
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-excluir">Cancelar</button>
                 <form method="post">
@@ -152,7 +188,6 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
 
 <!-- VERIFICAÇÃO DE QUAL FUNÇÃO ESTÁ SENDO CHAMADA -->
 <?php
-
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "novo") {
     echo "<script>$('#modalDados').modal('show');</script>";
 }
@@ -261,7 +296,3 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
         })
     });
 </script>
-
-<!-- SCRIPTS DIVERSOS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-<script src="../../js/mascara.js"></script>
