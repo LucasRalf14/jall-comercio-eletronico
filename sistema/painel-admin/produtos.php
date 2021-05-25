@@ -7,6 +7,7 @@ require_once("../../conexao.php");
 if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') {
     echo "<script language='javascript'> window.location='../index.php' </script>";
 }
+$agora = date('Y-m-d');
 ?>
 
 <div class="row mt-4 mb-4">
@@ -77,6 +78,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=imagens&id=<?php echo $id ?>" class='text-info mr-1' title='Inserir Imagens'><i class='fas fa-images'></i></a>
+                                <a href="index.php?pag=<?php echo $pag ?>&funcao=promocao&id=<?php echo $id ?>" class='text-success mr-1' title='Adicionar Promoção'><i class='fas fa-coins'></i></a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -422,6 +424,107 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
     </div>
 </div>
 
+<div class="modal" id="modalPromocao" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Adicionar Promoção</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+              <?php 
+                $id_pro = @$_GET['id'];
+                $res = $pdo->query("SELECT * FROM prod_promocao where id_produto = '$id_pro'"); 
+                $dados = $res->fetchAll(PDO::FETCH_ASSOC);
+                if(@count($dados) > 0){
+                  $valor_promo = $dados[0]['valor'];
+                  $data_ini = $dados[0]['data_inicio'];
+                  $data_fin = $dados[0]['data_final'];
+                  $ativo2 = $dados[0]['ativo'];
+                  $editar = 'sim';
+                }else{
+                  $editar = 'não';
+                  $data_ini = $agora;
+                  $data_fin = $agora;
+                }
+               ?>
+             <form method="post" id="form-promocao">
+              
+              <div class="row">
+                <div class="col-md-6">
+                   <div class="form-group">
+                        <label >*Valor</label>
+                        <input  type="text" class="form-control" id="valor-promocao" name="valor-promocao" placeholder="Valor Promocional" value="<?php echo @$valor_promo ?>">
+                </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label >Ativo</label>
+                     <select class="form-control form-control-sm" name="ativo-promocao" id="ativo-promocao">
+                                <?php 
+                                if (@$editar == 'sim') {
+                                   
+                                    echo "<option value='".$ativo2."' >" . $ativo2 . "</option>";
+                                }
+
+
+                                  if(@$ativo2 != "Sim"){
+                                       echo "<option value='Sim'>Sim</option>"; 
+                                   }
+
+                                    if(@$ativo2 != "Não"){
+                                       echo "<option value='Não'>Não</option>"; 
+                                   }
+
+                               ?>
+                           </select>               
+                     </div>
+                </div>
+              </div>
+                    
+                 
+                <div class="row">
+                  <div class="col-md-6">
+                     <div class="form-group">
+                        <label >Data Inicio</label>
+                        <input  type="date" class="form-control" id="data-inicial-promocao" name="data-inicial-promocao" value="<?php echo $data_ini ?>">
+                </div>
+                  </div>
+
+                  <div class="col-md-6">
+                       <div class="form-group">
+                        <label >Data Final</label>
+                        <input  type="date" class="form-control" id="data-final-promocao" name="data-final-promocao" value="<?php echo $data_fin ?>">
+                </div>
+                  </div>
+                
+
+
+                   
+                 </div>
+                
+
+                <div align="center" id="mensagem_promocao" class="">
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-promocao">Cancelar</button>
+               
+                    <input type="hidden" name="id-promocao" id="id-promocao" value="<?php echo @$_GET['id'] ?>">                  
+                    <button type="button" id="btn-promocao" name="btn-promocao" class="btn btn-info">Salvar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- VERIFICAÇÃO DE QUAL FUNÇÃO ESTÁ SENDO CHAMADA -->
 <?php
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "novo") {
@@ -438,6 +541,10 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
 
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "imagens") {
     echo "<script>$('#modal-imagens').modal('show');</script>";
+}
+
+if (@$_GET["funcao"] != null && @$_GET["funcao"] == "promocao") {
+    echo "<script>$('#modalPromocao').modal('show');</script>";
 }
 ?>
 
