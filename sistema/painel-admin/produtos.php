@@ -3,6 +3,7 @@ $pag = "produtos";
 require_once("../../conexao.php");
 
 //VERIFICAR SE O USUÁRIO ESTÁ AUTENTICADO, SE NÃO ESTIVER RETORNA PARA A INDEX
+//teste
 @session_start();
 if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') {
     echo "<script language='javascript'> window.location='../index.php' </script>";
