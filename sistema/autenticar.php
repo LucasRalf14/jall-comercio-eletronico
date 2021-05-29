@@ -24,8 +24,6 @@ require_once("../conexao.php");
     		echo "<script language='javascript'> window.location='painel-cliente' </script>";
     	}
 
-
-
     }else{
     	echo "<script language='javascript'> window.alert('Dados Incorretos!') </script>";
     	echo "<script language='javascript'> window.location='index.php' </script>";
