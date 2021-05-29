@@ -14,12 +14,10 @@ $pag = @$_GET["pag"];
 $menu1 = "produtos";
 $menu2 = "categorias";
 $menu3 = "subcategorias";
-$menu4 = "combos";
-$menu5 = "promocoes";
-$menu6 = "clientes";
-$menu7 = "vendas";
-$menu8 = "outro";
-$menu9 = "tipo-envios";
+$menu4 = "promocoes";
+$menu5 = "clientes";
+$menu6 = "vendas";
+$menu8 = "tipo-envios";
 
 //CONSULTAR OS DADOS DO USUÁRIO ATRAVÉS DO BANCO DE DADOS
 $result = $pdo->query("SELECT * FROM usuario where id_usuario = '$_SESSION[id_usuario]'");
@@ -27,6 +25,19 @@ $dados = $result->fetchAll(PDO::FETCH_ASSOC);
 $nome_user = @$dados[0]['nome'];
 $cpf_user = @$dados[0]['cpf'];
 $email_user = @$dados[0]['email'];
+
+//SCRIPT PARA VERIFICAR OS PRODUTOS QUE ESTÃO EM PROMOÇÃO
+$pdo->query("UPDATE produtos SET promocao = 'Não' "); 
+$res = $pdo->query("SELECT * FROM prod_promocao where ativo = 'Sim' and data_inicio <= curDate() and data_final >= curDate() "); 
+$dados = $res->fetchAll(PDO::FETCH_ASSOC);
+for ($i=0; $i < count($dados); $i++) { 
+        foreach ($dados[$i] as $key => $value) {
+
+        }
+$id_pro = @$dados[$i]['id_produto'];
+
+$pdo->query("UPDATE produtos SET promocao = 'Sim' where id_produtos = $id_pro"); 
+}
 
 ?>
 
@@ -86,30 +97,21 @@ $email_user = @$dados[0]['email'];
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-box-open"></i> <span>Produtos</span>
+                    <i class="fas fa-box-open"></i><span>Produtos</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="index.php?pag=<?php echo $menu1 ?>">Produtos</a>
                         <a class="collapse-item" href="index.php?pag=<?php echo $menu2 ?>">Categorias</a>
                         <a class="collapse-item" href="index.php?pag=<?php echo $menu3 ?>">Sub-Categorias</a>
-                        <a class="collapse-item" href="index.php?pag=<?php echo $menu9 ?>">Tipo Envios</a>
+                        <a class="collapse-item" href="index.php?pag=<?php echo $menu8 ?>">Tipo Envios</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-percent"></i>
-                    <span>Combos e Promoções</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="index.php?pag=<?php echo $menu4 ?>">Combos</a>
-                        <a class="collapse-item" href="index.php?pag=<?php echo $menu5 ?>">Promoções</a>
-                    </div>
-                </div>
+            <!-- Nav Item -->
+            <li class="nav-item" >
+                <a href="index.php?pag=<?php echo $menu4 ?>"  class="nav-link" ><i class='fas fa-percent'></i>Promoções</a>
             </li>
 
             <!-- Divider -->
@@ -122,22 +124,22 @@ $email_user = @$dados[0]['email'];
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="index.php?pag=<?php echo $menu6 ?>">
+                <a class="nav-link" href="index.php?pag=<?php echo $menu5 ?>">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Clientes</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="index.php?pag=<?php echo $menu7 ?>">
+                <a class="nav-link" href="index.php?pag=<?php echo $menu6 ?>">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Vendas</span></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="index.php?pag=<?php echo $menu8 ?>">
+                <a class="nav-link" href="" data-toggle="modal" data-target="#ModalEmail">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Outro</span></a>
+                    <span>Email Marketing</span></a>
             </li>
 
             <!-- Divider -->
@@ -210,16 +212,14 @@ $email_user = @$dados[0]['email'];
                         include_once($menu3 . ".php");
                     } else if ($pag == $menu4) {
                         include_once($menu4 . ".php");
+                    } else if ($pag == $menu4) {
+                        include_once($menu4 . ".php");
                     } else if ($pag == $menu5) {
                         include_once($menu5 . ".php");
                     } else if ($pag == $menu6) {
                         include_once($menu6 . ".php");
-                    } else if ($pag == $menu7) {
-                        include_once($menu7 . ".php");
                     } else if ($pag == $menu8) {
                         include_once($menu8 . ".php");
-                    } else if ($pag == $menu9) {
-                        include_once($menu9 . ".php");
                     } else {
                         include_once("home.php");
                     }
@@ -280,7 +280,7 @@ $email_user = @$dados[0]['email'];
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Confirmar Senha</label>
-                                    <input value="" type="password" class="form-control" id="conf_senha_admin" name="conf_senha_admin" placeholder="Senha">
+                                    <input value="" type="password" class="form-control" id="conf-senha" name="conf-senha" placeholder="Senha">
                                 </div>
                             </div>
                         </div>
@@ -302,6 +302,62 @@ $email_user = @$dados[0]['email'];
         </div>
     </div>
 
+    <!--  Modal Email-->
+    <div class="modal fade" id="ModalEmail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Email Marketing</h5>
+
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                    </div>
+
+            <form id="form-perfil" method="POST" enctype="multipart/form-data">
+                <div class="modal-body">
+
+            <?php 
+
+            $query = $pdo->query("SELECT * FROM email where ativo = 'Sim' ");
+            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+            $total_emails = @count($res);
+            ?>
+
+            <p><small>Total de Emails Cadastrados - <?php echo "<span style='color:blue; font-weight:bold;'>$total_emails</span>" ?></small></p>
+
+
+            <div class="form-group">
+                <label >Assunto Email</label>
+                <input  type="text" class="form-control" id="assunto-email" name="assunto-email" placeholder="Assunto do Email">
+            </div>
+
+            <div class="form-group">
+                <label >Link <small text-danger></small></label>
+                <input type="text" class="form-control" id="link-email" name="link-email" placeholder="Opcional">
+            </div>
+
+
+                <div class="form-group">
+                <label >Mensagem </label>
+                <textarea maxlength="1000" class="form-control" id="mensagem-email" name="mensagem-email"></textarea>
+            </div>
+
+            <small>
+                <div id="mensagem-email-marketing" class="mr-4">
+
+                </div>
+            </small>
+                        </div>
+                        <div class="modal-footer">
+
+                        <button type="button" id="btn-fechar-email" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" name="btn-salvar-email" id="btn-salvar-email" class="btn btn-primary">Salvar</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
 
     <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -349,6 +405,46 @@ $email_user = @$dados[0]['email'];
         });
     });
 </script>
+
+<script type="text/javascript">
+    $('#btn-salvar-email').click(function(event){
+        event.preventDefault();
+        $('#mensagem-email-marketing').addClass('text-info')
+        $('#mensagem-email-marketing').removeClass('text-danger')
+        $('#mensagem-email-marketing').removeClass('text-success')
+        $('#mensagem-email-marketing').text('Enviando')
+        $.ajax({
+            url:"email-marketing.php",
+            method:"post",
+            data: $('form').serialize(),
+            dataType: "text",
+            success: function(msg){
+               if(msg.trim() === 'Enviado com Sucesso!'){
+                    $('#mensagem-email-marketing').removeClass('text-info')
+                    $('#mensagem-email-marketing').addClass('text-success')
+                    $('#mensagem-email-marketing').text(msg);
+                    $('#assunto-email').val('');
+                    $('#link-email').val('');
+                    $('#mensagem-email').val('');
+                    
+
+                 }else if(msg.trim() === 'Preencha o Campo Assunto!'){
+                    $('#mensagem-email-marketing').addClass('text-danger')
+                    $('#mensagem-email-marketing').text(msg);
+                 }else if(msg.trim() === 'Preencha o Campo Mensagem!'){
+                    $('#mensagem-email-marketing').addClass('text-danger')
+                    $('#mensagem-email-marketing').text(msg);
+                 }else{
+                    $('#mensagem-email-marketing').addClass('text-danger')
+                    $('#mensagem-email-marketing').text('Deu erro ao Enviar o Formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você está em um servidor local!');
+                    //$('#div-mensagem').text(msg);
+
+                 }
+            }
+        })
+    })
+</script>
+
 
 <!-- SCRIPTS DIVERSOS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
