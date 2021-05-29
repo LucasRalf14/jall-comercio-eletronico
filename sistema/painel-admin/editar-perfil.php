@@ -31,7 +31,7 @@ if ($senha == "") {
     exit();
 }
 
-if ($senha != $_POST['senha_admin']) {
+if ($senha != $_POST['conf-senha']) {
     echo 'As senhas não coincidem!';
     exit();
 }
@@ -57,3 +57,5 @@ $result->bindValue(":id", $id_admin);
 $result->execute();
 
 echo 'Salvo com Sucesso!';
+
+?>
