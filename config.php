@@ -12,6 +12,8 @@ $endereco_loja = 'Inserir endereço da loja';
 $texto_cupom = 'Insira o seu código de cupom';
 
 
+$url_loja = 'localhost/jall-comercio-eletronico/';
+
 // VARIAVEIS DO BANCO DE DADOS
 $servidor = 'localhost';
 $usuario = 'root';
