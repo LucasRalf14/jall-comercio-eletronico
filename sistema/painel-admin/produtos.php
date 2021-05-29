@@ -49,6 +49,8 @@ $agora = date('Y-m-d');
                         $subcategoria = $res[$i]['id_sub_cat'];
                         $imagem = $res[$i]['imagem'];
                         $ativo = $res[$i]['ativo'];
+                        $promocao = $res[$i]['promocao'];
+                        
                         $id = $res[$i]['id_produtos'];
 
                         $valor = number_format($valor, 2, ',', '.');
@@ -69,6 +71,7 @@ $agora = date('Y-m-d');
                         <tr>
                             <td>
                                 <i class='fas fa-square <?php echo $classe ?>'></i>
+                                <?php echo "&nbsp; &nbsp; &nbsp; $nome"?>
                             </td>
                             <td>R$ <?php echo $valor ?></td>
                             <td><?php echo $estoque ?></td>
@@ -79,7 +82,15 @@ $agora = date('Y-m-d');
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=imagens&id=<?php echo $id ?>" class='text-info mr-1' title='Inserir Imagens'><i class='fas fa-images'></i></a>
-                                <a href="index.php?pag=<?php echo $pag ?>&funcao=promocao&id=<?php echo $id ?>" class='text-success mr-1' title='Adicionar Promoção'><i class='fas fa-coins'></i></a>
+                                <a href="index.php?pag=<?php echo $pag ?>&funcao=promocao&id=<?php echo $id ?>" class=' mr-1' title='Adicionar Promoção'>
+                            <?php if($promocao == 'Sim'){
+                              echo "<i class='fas fa-coins text-success'></i>";
+                            }else{
+                              echo "<i class='fas fa-coins text-danger'></i>";
+                            } ?>
+                            
+
+                          </a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -425,6 +436,8 @@ $agora = date('Y-m-d');
     </div>
 </div>
 
+<!-- MODAL PARA ADICIONAR PROMOÇÃO A UM PRODUTO -->
+
 <div class="modal" id="modalPromocao" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -452,7 +465,9 @@ $agora = date('Y-m-d');
                   $data_fin = $agora;
                 }
                ?>
-             <form method="post" id="form-promocao">
+
+
+            <form method="post" id="form-promocao">
               
               <div class="row">
                 <div class="col-md-6">
@@ -782,6 +797,32 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "promocao") {
             target.src = "";
         }
     }
+</script>
+
+<script type="text/javascript">
+    $('#btn-promocao').click(function(event){
+        event.preventDefault();
+        var pag = "<?=$pag?>";
+        $.ajax({
+            url: pag + "/add-promocao.php",
+            method:"post",
+            data: $('#form-promocao').serialize(),
+            dataType: "text",
+            success: function(msg){
+                if(msg.trim() === 'Salvo com Sucesso!!'){
+
+                    $('#btn-cancelar-promocao').click();
+                    window.location = "index.php?pag="+pag;
+                    }
+                 else{
+                    $('#mensagem_promocao').addClass('text-danger')
+                    $('#mensagem_promocao').text(msg);
+                   
+
+                 }
+            }
+        })
+    })
 </script>
 
 <!-- SCRIPT PARA DESABILITAR A ORDENAÇÃO PADRÃO DO DATATABLE -->
