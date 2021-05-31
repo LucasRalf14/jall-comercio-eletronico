@@ -458,7 +458,9 @@ $agora = date('Y-m-d');
                   $data_ini = $dados[0]['data_inicio'];
                   $data_fin = $dados[0]['data_final'];
                   $ativo2 = $dados[0]['ativo'];
+                  $desconto = $dados[0]['desconto'];
                   $editar = 'sim';
+                  $texto_promocao = 'Valor promocional deste produto: ' .$valor_promo;
                 }else{
                   $editar = 'não';
                   $data_ini = $agora;
@@ -472,8 +474,8 @@ $agora = date('Y-m-d');
               <div class="row">
                 <div class="col-md-6">
                    <div class="form-group">
-                        <label >*Valor</label>
-                        <input  type="text" class="form-control" id="valor-promocao" name="valor-promocao" placeholder="Valor Promocional" value="<?php echo @$valor_promo ?>">
+                        <label >% do desconto <small>(ex: 20, 30)</small></label>
+                        <input  type="number" class="form-control" id="valor-promocao" name="valor-promocao" placeholder="Valor em %" value="<?php echo @$desconto ?>">
                 </div>
                 </div>
 
@@ -522,7 +524,9 @@ $agora = date('Y-m-d');
 
                    
                  </div>
+
                 
+                <p class="text-info"><span style='color:blue; font-weight:bold;'><?php echo @$texto_promocao ;?></span></p>
 
                 <div align="center" id="mensagem_promocao" class="">
 
