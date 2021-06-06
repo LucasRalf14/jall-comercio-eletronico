@@ -1,4 +1,6 @@
-<?php require_once("conexao.php") ?>
+<?php
+require_once("conexao.php");
+?>
 
 <!-- Hero Section Begin -->
 <section class="hero hero-normal">
@@ -10,9 +12,10 @@
                         <i class="fa fa-bars"></i>
                         <span>Categorias</span>
                     </div>
+
                     <ul>
                         <?php
-                        $query = $pdo->query("SELECT * FROM categorias order by id_categorias desc ");
+                        $query = $pdo->query("SELECT * FROM categorias order by nome asc");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
                         for ($i = 0; $i < count($res); $i++) {
@@ -29,6 +32,7 @@
                     </ul>
                 </div>
             </div>
+
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
@@ -37,6 +41,7 @@
                             <button type="submit" class="site-btn">BUSCAR</button>
                         </form>
                     </div>
+                    
                     <div class="hero__search__phone">
                         <div class="hero__search__phone__icon">
                             <a href="" class="text-success">

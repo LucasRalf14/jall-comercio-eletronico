@@ -17,7 +17,9 @@ if (@$_GET['pagina'] != null) {
 $limite = $pag * @$itens_por_pagina;
 $pagina = $pag;
 $nome_pag = 'subcategorias.php';
+?>
 
+<?php
 //RECUPERAR A CATEGORIA PARA FILTRAR AS SUAS SUBCATEGORIAS
 $categoria_get = @$_GET['nome'];
 
@@ -75,6 +77,7 @@ $id_categoria = @$res[0]['id_categorias'];
                         $nome_url = $res[$i]['slug'];
                         $id = $res[$i]['id_sub_cat'];
 
+                        //BUSCAR O TOTAL DE ITENS CADASTRADOS NA SUBCATEGORIA
                         $query2 = $pdo->query("SELECT * FROM produtos where id_sub_cat = '$id' ");
                         $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
                         $total_itens = @count($res2);
@@ -86,7 +89,7 @@ $id_categoria = @$res[0]['id_categorias'];
                         $num_paginas = ceil($num_total / $itens_por_pagina);
                     ?>
 
-                        <?php if ($total_itens != 0) { ?>
+                        <?php if ($total_itens != 0) { //SE NÂO HOUVER PRODUTOS CADASTRADOS NÂO EXIBE A SUBCATEGORIA?>
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <div class="product__item__pic set-bg" data-setbg="img/categorias/<?php echo $imagem ?>">

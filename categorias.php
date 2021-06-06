@@ -27,6 +27,7 @@ $nome_pag = 'categorias.php';
                 <div class="sidebar">
                     <div class="sidebar__item">
                         <h4>Subcategorias</h4>
+
                         <ul>
                             <?php
                             $query = $pdo->query("SELECT * FROM sub_categorias order by nome asc ");
@@ -48,6 +49,7 @@ $nome_pag = 'categorias.php';
 
             <div class="col-lg-9 col-md-7">
                 <h5>Lista de Categorias</h5>
+
                 <div class="row mt-4">
                     <?php
                     $query = $pdo->query("SELECT * FROM categorias order by nome asc LIMIT $limite, $itens_por_pagina");
@@ -85,7 +87,7 @@ $nome_pag = 'categorias.php';
                                     <div class="product__item__text">
                                         <a href="sub-categoria-de-<?php echo $nome_url ?>">
                                             <h5><?php echo $nome ?></h5>
-                                            <h6><?php echo $total_itens ?> Podutos</h6>
+                                            <h6><?php echo $total_itens ?> Subcategorias</h6>
                                         </a>
                                     </div>
                                 </div>

@@ -215,14 +215,18 @@ $nome_pag = 'promocao.php';
                             <div class="product__discount__item">
                                 <div class="product__discount__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
                                     <div class="product__discount__percent"><?php echo $desconto ?>%</div>
+                                    
                                     <ul class="product__item__pic__hover">
                                         <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                        <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
+
                                 <div class="product__discount__item__text">
                                     <span> <?php echo $nome_cat ?> </span>
-                                    <h5><a href="#"><?php echo $nome ?></a></h5>
+                                    
+                                    <h5><a href="produto-<?php echo $nome_url ?>"><?php echo $nome ?></a></h5>
+                                    
                                     <div class="product__item__price">R$ <?php echo $valor_promo ?><span>R$ <?php echo $valor ?></span></div>
                                 </div>
                             </div>

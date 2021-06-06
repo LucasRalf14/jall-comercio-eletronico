@@ -1,5 +1,63 @@
 <?php
 require_once("config.php");
+require_once("conexao.php");
+
+//RECUPERANDO A SESSÃO DO USUÁRIO
+@session_start();
+$id_usuario = @$_SESSION['id_usuario'];
+
+//VERIFICAR TOTAIS DO CARRINHO
+$res = $pdo->query("SELECT * from carrinho where id_usuario = '$id_usuario' and id_venda = 0 order by id_carrinho asc");
+$dados = $res->fetchAll(PDO::FETCH_ASSOC);
+
+$linhas = @count($dados);
+
+if ($linhas == 0) {
+    $linhas = 0;
+    $total = 0;
+}
+
+$total;
+
+for ($i = 0; $i < count($dados); $i++) {
+    foreach ($dados[$i] as $key => $value) {
+    }
+
+    //$combo = $dados[$i]['combo']; Não utiliza no nosso projeto
+    $id_produto = $dados[$i]['id_produto'];
+    $quantidade = $dados[$i]['quantidade'];
+
+    //if ($combo == 'Sim') {
+    //$res_p = $pdo->query("SELECT * from combos where id = '$id_produto' ");
+    //} else {
+    $res_p = $pdo->query("SELECT * from produtos where id_produtos = '$id_produto' ");
+    //}
+
+    $dados_p = $res_p->fetchAll(PDO::FETCH_ASSOC);
+
+    // ($combo == 'Sim') { 
+    //$promocao = ""; 
+    //$pasta = "combos";
+    //} else {
+    $promocao = $dados_p[0]['promocao'];
+    $pasta = "produtos";
+    //}
+
+    if ($promocao == 'Sim') {
+        $queryp = $pdo->query("SELECT * FROM prod_promocao where id_produto = '$id_produto' ");
+        $resp = $queryp->fetchAll(PDO::FETCH_ASSOC);
+
+        $valor = $resp[0]['valor'];
+    } else {
+        $valor = $dados_p[0]['valor'];
+    }
+
+    $total_item = $valor * $quantidade;
+    @$total = @$total + $total_item;
+}
+
+@$total_c = number_format(@$total, 2, ',', '.');
+
 ?>
 
 <!DOCTYPE html>
@@ -42,18 +100,25 @@ require_once("config.php");
         <div class="humberger__menu__logo">
             <a href="index.php"><img src="img/logo.png" alt=""></a>
         </div>
+
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span> <?php echo $linhas ?> </span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>R$150.00</span></div>
+
+            <div class="header__cart__price">item: <span>R R$ <?php echo $total_c ?> </span></div>
+
             <div class="header__top__right__auth ml-4">
-                <a href="sistema/index.php"><i class="fa fa-user"></i> Login</a>
+                <?php
+                if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel'] != 'Cliente') {
+                ?>
+                    <a href="sistema/index.php"><i class="fa fa-user"></i>Painel</a>
+                <?php } ?>
             </div>
         </div>
-        <div class="humberger__menu__widget">
 
-        </div>
+        <div class="humberger__menu__widget"> </div>
+
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.php">Início</a></li>
@@ -69,13 +134,16 @@ require_once("config.php");
                 <li><a href="./contato.php">Contatos</a></li>
             </ul>
         </nav>
+
         <div id="mobile-menu-wrap"></div>
+
         <div class="header__top__right__social">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-            <a href="#"><i class="fa fa-whatsapp"></i></a>
+            <a target="_blank"><i class="fa fa-facebook"></i></a>
+            <a target="_blank"><i class="fa fa-twitter"></i></a>
+            <a target="_blank"><i class="fa fa-instagram"></i></a>
+            <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=<?php echo $whatsapp_link ?>"><i class="fa fa-whatsapp"></i></a>
         </div>
+
         <div class="humberger__menu__contact">
             <ul>
                 <li><i class="fa fa-envelope"></i> <?php echo $email ?> </li>
@@ -102,19 +170,26 @@ require_once("config.php");
                         <div class="header__top__right">
                             <div class="header__top__right__social">
                                 <a href="#" target="_blank" title="Ir para o Facebook"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
-                                <a href="#"><i class="fa fa-whatsapp"></i></a>
+                                <a href="#" target="_blank"><i class="fa fa-twitter"></i></a>
+                                <a href="#" target="_blank"><i class="fa fa-instagram"></i></a>
+                                <a target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=<?php echo $whatsapp_link ?>" title="<?php echo $whatsapp ?>"><i class="fa fa-whatsapp text-success"></i></a>
                             </div>
 
                             <div class="header__top__right__auth">
-                                <a href="sistema/index.php"><i class="fa fa-user"></i> Login</a>
+                                <?php
+                                if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel'] != 'Cliente') {
+                                ?>
+                                    <a href="sistema"><i class="fa fa-user"></i>Login</a>
+                                <?php } else { ?>
+                                    <a target="_blank" href="sistema/painel-cliente"><i class="fa fa-user"></i>Painel</a>
+                                <?php } ?>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -122,6 +197,7 @@ require_once("config.php");
                         <a href="./index.php"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
@@ -139,12 +215,14 @@ require_once("config.php");
                         </ul>
                     </nav>
                 </div>
+
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                            <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span><?php echo $linhas ?></span></a></li>
                         </ul>
-                        <div class="header__cart__price">item: <span>R$150,00</span></div>
+
+                        <div class="header__cart__price">item: <span>R$ <?php echo $total_c ?></span></div>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,4 @@
 <?php
-
 require_once("conexao.php");
 
 if($_POST['nome'] == ""){
@@ -19,9 +18,7 @@ if($_POST['mensagem'] == ""){
 
 $destinatario = $email;
 $assunto = $nome_loja . ' - Email da Loja';
-
 $mensagem = utf8_decode('Nome: '.$_POST['nome']. "\r\n"."\r\n" . 'Mensagem: ' . "\r\n"."\r\n" .$_POST['mensagem']);
-
 $cabecalhos = "From: ".$_POST['email'];
 
 mail($destinatario, $assunto, $mensagem, $cabecalhos);
@@ -31,7 +28,8 @@ echo 'Enviado com Sucesso!';
 //Enviar para o BD o email e o nome dos campos
 $res = $pdo->query("SELECT * FROM email where email = '$_POST[email]'");
 $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-if(@count($dados) == 0){
+
+if (@count($dados) == 0) {
     $res = $pdo->prepare("INSERT into email (nome, email, ativo) values (:nome, :email, :ativo)");
 
     $res->bindValue(":nome", $_POST['nome']);
@@ -41,5 +39,4 @@ if(@count($dados) == 0){
 }
 
 echo $_POST['email'];
-
 ?>

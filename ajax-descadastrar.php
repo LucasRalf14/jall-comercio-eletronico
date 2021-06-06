@@ -4,7 +4,7 @@ require_once("conexao.php");
 
 $email = $_POST['email'];
 
-if($email == ""){
+if ($email == "") {
     echo 'Preencha o Campo Email!';
     exit();
 }
@@ -12,13 +12,11 @@ if($email == ""){
 $res = $pdo->query("SELECT * FROM email where email = '$email'"); 
 $dados = $res->fetchAll(PDO::FETCH_ASSOC);
 
-if(@count($dados) > 0){
+if (@count($dados) > 0) {
     
     $pdo->query("UPDATE email SET ativo = 'Não' where email = '$email'"); 
     echo 'Descadastrado da Lista com Sucesso!';
-}else{
+} else {
    echo 'Este email não está cadastrado!';
-
 }
-
 ?>
