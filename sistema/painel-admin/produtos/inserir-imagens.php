@@ -5,11 +5,13 @@ require_once("../../../conexao.php");
 $id_produto = $_POST['id'];
 
 //SCRIPT PARA SUBIR FOTO NO BANCO
-$caminho = '../../../img/detalhes/' .@$_FILES['imgproduto']['name'];
+$nome_img = preg_replace('/[ -]+/' , '-' , @$_FILES['imgproduto']['name']);
+$caminho = '../../../img/detalhes/' .$nome_img;
+
 if (@$_FILES['imgproduto']['name'] == "") {
   $imagem = "sem-foto.jpg";
 } else {
-  $imagem = @$_FILES['imgproduto']['name']; 
+  $imagem = $nome_img; 
 }
 
 $imagem_temp = @$_FILES['imgproduto']['tmp_name']; 

@@ -16,24 +16,25 @@ if ($nome == "") {
 	exit();
 }
 
-//VERIFICA SE A CATEGORIA JÁ ESTÁ CADASTRADA
+//VERIFICA SE A SUBCATEGORIA JÁ ESTÁ CADASTRADA
 if ($nome != $antigo) {
 	$res = $pdo->query("SELECT * FROM sub_categorias where nome = '$nome'"); 
 	$dados = $res->fetchAll(PDO::FETCH_ASSOC);
 
 	if (@count($dados) > 0) {
-			echo 'Sub-Categoria já Cadastrada no Banco!';
+			echo 'Subcategoria já cadastrada no banco de dados!';
 			exit();
 		}
 }
 
 //ENVIANDO A IMAGEM PARA A PASTA DE CATEGORIAS
-$caminho = '../../../img/subcategorias/' .@$_FILES['imagem']['name'];
+$nome_img = preg_replace('/[ -]+/' , '-' , @$_FILES['imagem']['name']);
+$caminho = '../../../img/subcategorias/' .$nome_img;
 
 if (@$_FILES['imagem']['name'] == "") {
-  $imagem = "sem-foto.jpg";
+    $imagem = "sem-foto.jpg";
 } else {
-  $imagem = @$_FILES['imagem']['name']; 
+    $imagem = $nome_img; 
 }
 
 $imagem_temp = @$_FILES['imagem']['tmp_name']; 

@@ -1,5 +1,6 @@
 <?php
 require_once("cabecalho.php");
+require_once("conexao.php");
 ?>
 
 <!-- Hero Section Begin -->
@@ -13,23 +14,30 @@ require_once("cabecalho.php");
                         <span>Departamentos</span>
                     </div>
                     <ul>
-                        <li><a href="#">HARDWARE</a></li>
-                        <li><a href="#">SMARTPHONES</a></li>
-                        <li><a href="#">PERIFÉRICOS</a></li>
-                        <li><a href="#">COMPUTADORES</a></li>
-                        <li><a href="#">PLACAS DE VÍDEO</a></li>
-                        <li><a href="#">MONITORES</a></li>
-                        <li><a href="#">TECLADO & MOUSE</a></li>
-                        <li><a href="#">GAMER</a></li>
-                        <li><a href="#">HOME OFFICE</a></li>
+                        <!-- MODULO 5 -->
+                        <?php
+                        $query = $pdo->query("SELECT * FROM categorias order by nome asc ");
+                        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                        for ($i = 0; $i < count($res); $i++) {
+                            foreach ($res[$i] as $key => $value) {
+                            }
+
+                            $nome = $res[$i]['nome'];
+                            $nome_url = $res[$i]['slug'];
+                        ?>
+
+                            <li> <a href="sub-categoria-de-<?php echo $nome_url ?>"> <?php echo $nome ?> </a> </li>
+                        <?php } ?>
+                        <!-- MODULO 5 FIM -->
                     </ul>
                 </div>
             </div>
             <div class="col-lg-9">
                 <div class="hero__search">
                     <div class="hero__search__form">
-                        <form action="#">
-                            <input type="text" placeholder="O que você está procurando?">
+                        <form action="produtosLista.php" method="GET">
+                            <input type="text" name="txtBuscar" id="txtBuscar" placeholder="O que está procurando?">
                             <button type="submit" class="site-btn">BUSCAR</button>
                         </form>
                     </div>
@@ -67,31 +75,35 @@ require_once("cabecalho.php");
     <div class="container">
         <div class="row">
             <div class="categories__slider owl-carousel">
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categorias/hardware.png">
-                        <h5><a href="#">Hardware</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categorias/perifericos.png">
-                        <h5><a href="#">Periféricos</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categorias/computadores.png">
-                        <h5><a href="#">Computadores</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categorias/placas_de_video.png">
-                        <h5><a href="#">Placas de Vídeo</a></h5>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <div class="categories__item set-bg" data-setbg="img/categorias/monitores.png">
-                        <h5><a href="#">Monitores</a></h5>
-                    </div>
-                </div>
+                <?php
+                $query = $pdo->query("SELECT * FROM categorias order by nome asc ");
+                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                $total_categorias = @count($res);
+
+                for ($i = 0; $i < count($res); $i++) {
+                    foreach ($res[$i] as $key => $value) {
+                    }
+
+                    $nome = $res[$i]['nome'];
+                    $nome_url = $res[$i]['slug'];
+                    $imagem = $res[$i]['imagem'];
+                    $id_categoria = $res[$i]['id_categorias'];
+
+                    //VERIFICA SE A CATEGORIA POSSUI ALGUM PRODUTO ATRELADO A MESMA
+                    $queryP = $pdo->query("SELECT * FROM produtos where id_categoria = '$id_categoria' ");
+                    $resP = $queryP->fetchAll(PDO::FETCH_ASSOC);
+                    $totalP = @count($resP);
+                ?>
+
+                    <?php if ($totalP != 0) { //EXIBE A CATEGORIA SE FOR ENCONTRADO ALGUM PRODUTO ATRELADO A MESMA
+                    ?>
+                        <div class="col-lg-3">
+                            <div class="categories__item set-bg" data-setbg="img/categorias/<?php echo $imagem ?>">
+                                <h5><a href="sub-categoria-de-<?php echo $nome_url ?>"> <?php echo $nome ?> </a></h5>
+                            </div>
+                        </div>
+                    <?php } ?>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -106,146 +118,92 @@ require_once("cabecalho.php");
                 <div class="section-title">
                     <h2>Produtos em Destaque</h2>
                 </div>
+
                 <div class="featured__controls">
                     <ul>
-                        <li class="active" data-filter="*">Todos</li>
-                        <li data-filter=".hardware">Hardware</li>
-                        <li data-filter=".perifericos">Periféricos</li>
-                        <li data-filter=".monitores">Monitores</li>
-                        <li data-filter=".placavideo">Placas de Vídeo</li>
+                        <?php
+                        $query = $pdo->query("SELECT * FROM sub_categorias order by id_sub_cat limit 5");
+                        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                        for ($i = 0; $i < count($res); $i++) {
+                            foreach ($res[$i] as $key => $value) {
+                            }
+
+                            $nome = $res[$i]['nome'];
+                            $nome_url = $res[$i]['slug'];
+                        ?>
+
+                            <li> <a class="text-dark" href="produtos-<?php echo $nome_url ?>"> <?php echo $nome ?> <a> </li>
+
+                        <?php } ?>
                     </ul>
                 </div>
             </div>
         </div>
+
         <div class="row featured__filter">
-            <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/hardware.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
+            <?php
+            $query = $pdo->query("SELECT * FROM produtos order by vendas desc limit 8");
+            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            for ($i = 0; $i < count($res); $i++) {
+                foreach ($res[$i] as $key => $value) {
+                }
+
+                $nome = $res[$i]['nome'];
+                $valor = $res[$i]['valor'];
+                $nome_url = $res[$i]['slug'];
+                $imagem = $res[$i]['imagem'];
+                $promocao = $res[$i]['promocao'];
+                $id = $res[$i]['id_produtos'];
+                $valor = number_format($valor, 2, ',', '.');
+
+                if ($promocao == 'Sim') {
+                    $queryp = $pdo->query("SELECT * FROM prod_promocao where id_produto = '$id' ");
+                    $resp = $queryp->fetchAll(PDO::FETCH_ASSOC);
+                    $valor_promo = $resp[0]['valor'];
+                    $desconto = $resp[0]['desconto'];
+                    $valor_promo = number_format($valor_promo, 2, ',', '.');
+            ?>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
+                        <div class="product__discount__item">
+                            <div class="product__discount__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
+                                <div class="product__discount__percent"><?php echo $desconto ?>%</div>
+                                <ul class="product__item__pic__hover">
+                                    <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+
+                            <div class="product__discount__item__text">
+                                <h5><a href="#"><?php echo $nome ?></a></h5>
+                                <div class="product__item__price">R$ <?php echo $valor_promo ?><span>R$ <?php echo $valor ?></span></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="featured__item__text">
-                        <a href="produto-detalhe.php">
-                            <h6>AMD Ryzen 9 5900X</h6>
-                            <h5>R$ 4.883,91</h5>
-                        </a>
+
+                <?php } else { ?>
+
+                    <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+
+                            <div class="featured__item__text">
+                                <a href="produto-<?php echo $nome_url ?>">
+                                    <h6><?php echo $nome ?></h6>
+                                    <h5>R$ <?php echo $valor ?></h5>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix perifericos">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/perifericos.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Mouse Razer Lancehead</h6>
-                            <h5>R$ 1.260,00</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix perifericos">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/perifericos_2.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Mouse Corsair Harpoon</h6>
-                            <h5>R$ 205,75</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix placavideo">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/placas_de_video.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>GeForce RTX 3070 OC</h6>
-                            <h5>R$ 7.942,23</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix monitores">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/monitores.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Monitor ASUS 27POL</h6>
-                            <h5>R$ 4.000,00</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/hardware_2.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Intel Core I9 10900F</h6>
-                            <h5>R$ 3.274,71</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix monitores">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/monitores_2.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Monitor Redragon Blackmagic</h6>
-                            <h5>R$ 3.126,32</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix perifericos">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/perifericos_3.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Mouse Redragon Cobra</h6>
-                            <h5>R$ 183,79</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
+                <?php } ?>
+            <?php } ?>
         </div>
     </div>
 </section>
@@ -255,16 +213,25 @@ require_once("cabecalho.php");
 <div class="banner">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="banner__pic">
-                    <a href=""><img src="img/banner-secundario/banner_processador.png" alt=""></a>
+            <?php
+            $query = $pdo->query("SELECT * FROM promo_banners where ativo = 'Sim' order by id_promo_banner desc limit 2");
+            $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+            for ($i = 0; $i < count($res); $i++) {
+                foreach ($res[$i] as $key => $value) {
+                }
+
+                $titulo = $res[$i]['titulo'];
+                $link = $res[$i]['link'];
+                $imagem = $res[$i]['imagem'];
+            ?>
+
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="banner__pic">
+                        <a href="<?php echo $link ?>" title="<?php echo $titulo ?>"> <img src="img/banner-secundario/<?php echo $imagem ?>" alt="<?php echo $titulo ?>"> </a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6">
-                <div class="banner__pic">
-                    <a href=""><img src="img/banner-secundario/banner_ssds.jpg" alt=""></a>
-                </div>
-            </div>
+            <?php } ?>
         </div>
     </div>
 </div>
@@ -280,72 +247,82 @@ require_once("cabecalho.php");
                 </div>
             </div>
         </div>
-        <div class="row featured__filter">
-            <div class="col-lg-3 col-md-4 col-sm-6 mix monitores">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/monitores.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
+
+        <section class="categories">
+            <div class="container">
+                <div class="row">
+                    <div class="categories__slider owl-carousel">
+                        <!-- MODULO 5 -->
+                        <?php
+                        $query = $pdo->query("SELECT * FROM produtos order by id_produtos desc limit 8");
+                        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+
+                        for ($i = 0; $i < count($res); $i++) {
+                            foreach ($res[$i] as $key => $value) {
+                            }
+
+                            $nome = $res[$i]['nome'];
+                            $valor = $res[$i]['valor'];
+                            $nome_url = $res[$i]['slug'];
+                            $imagem = $res[$i]['imagem'];
+                            $promocao = $res[$i]['promocao'];
+                            $id = $res[$i]['id_produtos'];
+                            $id_categoria = $res[$i]['id_categoria'];
+                            $valor = number_format($valor, 2, ',', '.');
+
+                            $query2 = $pdo->query("SELECT * FROM categorias where id_categorias = '$id_categoria' ");
+                            $res2 = $query2->fetchAll(PDO::FETCH_ASSOC);
+
+                            $nome_cat = $res2[0]['nome'];
+
+                            if ($promocao == 'Sim') {
+                                $queryp = $pdo->query("SELECT * FROM prod_promocao where id_produto = '$id' ");
+                                $resp = $queryp->fetchAll(PDO::FETCH_ASSOC);
+                                $valor_promo = $resp[0]['valor'];
+                                $valor_promo = number_format($valor, 2, ',', '.');
+                        ?>
+
+                                <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
+                                    <div class="product__discount__item">
+                                        <div class="product__discount__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
+                                            <div class="product__discount__percent"><?php echo $desconto ?>%</div>
+                                            <ul class="product__item__pic__hover">
+                                                <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
+                                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="product__discount__item__text">
+                                            <span> <?php echo $nome_cat ?> </span>
+                                            <h5><a href="#"><?php echo $nome ?></a></h5>
+                                            <div class="product__item__price">R$ <?php echo $valor_promo ?><span>R$ <?php echo $valor ?></span></div>
+                                        </div>
+                                    </div>
+                                </div>
                     </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Monitor ASUS 27POL</h6>
-                            <h5>R$ 4.000,00</h5>
-                        </a>
+                <?php } else { ?>
+                    <div class="col-lg-3">
+                        <div class="featured__item">
+                            <div class="featured__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
+                                <ul class="featured__item__pic__hover">
+                                    <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                </ul>
+                            </div>
+
+                            <div class="featured__item__text">
+                                <a href="produto-<?php echo $nome_url ?>">
+                                    <h5><?php echo $nome ?></h5>
+                                    <h6>R$ <?php echo $valor ?></h6>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+            <?php }
+                        } ?>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/hardware_2.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Intel Core I9 10900F</h6>
-                            <h5>R$ 3.274,71</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix monitores">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/monitores_2.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Monitor Redragon Blackmagic</h6>
-                            <h5>R$ 3.126,32</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 mix perifericos">
-                <div class="featured__item">
-                    <div class="featured__item__pic set-bg" data-setbg="img/destaques/perifericos_3.png">
-                        <ul class="featured__item__pic__hover">
-                            <li><a href="#"><i class="fa fa-eye"></i></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-                        </ul>
-                    </div>
-                    <div class="featured__item__text">
-                        <a href="#">
-                            <h6>Mouse Redragon Cobra</h6>
-                            <h5>R$ 183,79</h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
 </section>
 <!-- Latest Product Section End -->

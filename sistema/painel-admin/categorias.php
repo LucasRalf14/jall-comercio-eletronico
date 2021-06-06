@@ -56,7 +56,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
                             </td>
                         </tr>
-            <?php   }  ?>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>

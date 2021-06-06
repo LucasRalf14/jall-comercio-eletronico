@@ -4,10 +4,11 @@
     //VERIFICAR SE EXISTE ALGUM CADASTRO NO BANCO, SE NÃO TIVER CADASTRA USUARIO ADMINISTRADOR
     $res = $pdo->query("SELECT * FROM usuario");
     $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-    $senha_crip = md5('123');
+    $senha_crip = md5('jall123');
+    
     if(@count($dados) == 0){
-        $res = $pdo->query("INSERT into usuario (nome, cpf, senha, senha_crip, nivel) 
-        values ('Administrador', '000.000.000-00', '123', '$senha_crip', 'Admin')");
+        $res = $pdo->query("INSERT into usuario (nome, cpf, email, senha, senha_crip, nivel) 
+        values ('Administrador', '000.000.000-01', 'jall@gmail.com', 'jall123', '$senha_crip', 'Admin')");
     }
 ?>
 

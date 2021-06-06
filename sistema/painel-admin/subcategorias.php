@@ -11,7 +11,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
 ?>
 
 <div class="row mt-4 mb-4">
-    <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Nova Sub-Categoria</a>
+    <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Nova Subcategoria</a>
     <a type="button" class="btn-primary btn-sm ml-3 d-block d-sm-none" href="index.php?pag=<?php echo $pag ?>&funcao=novo">+</a>
 </div>
 
@@ -220,7 +220,6 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "excluir") {
                     $('#btn-fechar').click();
                     window.location = "index.php?pag=" + pag;
                 } else {
-
                     $('#mensagem').addClass('text-danger')
                 }
 

@@ -11,12 +11,15 @@ $texto_destaque = 'Inserir alguma informação pertinente';
 $endereco_loja = 'Inserir endereço da loja';
 $texto_cupom = 'Insira o seu código de cupom';
 
-
 $url_loja = 'localhost/jall-comercio-eletronico/';
+
+//VARÁVEIS DO SITE
+$itens_por_pagina = 6;
+$promo_por_pagina = 9;
 
 // VARIAVEIS DO BANCO DE DADOS
 $servidor = 'localhost';
 $usuario = 'root';
 $senha = '';
-$banco = 'jalldb'
+$banco = 'jallDB'
 ?>

@@ -3,7 +3,6 @@ $pag = "produtos";
 require_once("../../conexao.php");
 
 //VERIFICAR SE O USUÁRIO ESTÁ AUTENTICADO, SE NÃO ESTIVER RETORNA PARA A INDEX
-//teste
 @session_start();
 if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') {
     echo "<script language='javascript'> window.location='../index.php' </script>";
@@ -50,7 +49,7 @@ $agora = date('Y-m-d');
                         $imagem = $res[$i]['imagem'];
                         $ativo = $res[$i]['ativo'];
                         $promocao = $res[$i]['promocao'];
-                        
+
                         $id = $res[$i]['id_produtos'];
 
                         $valor = number_format($valor, 2, ',', '.');
@@ -71,7 +70,7 @@ $agora = date('Y-m-d');
                         <tr>
                             <td>
                                 <i class='fas fa-square <?php echo $classe ?>'></i>
-                                <?php echo "&nbsp; &nbsp; &nbsp; $nome"?>
+                                <?php echo "&nbsp; &nbsp; &nbsp; $nome" ?>
                             </td>
                             <td>R$ <?php echo $valor ?></td>
                             <td><?php echo $estoque ?></td>
@@ -83,14 +82,14 @@ $agora = date('Y-m-d');
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=imagens&id=<?php echo $id ?>" class='text-info mr-1' title='Inserir Imagens'><i class='fas fa-images'></i></a>
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=promocao&id=<?php echo $id ?>" class=' mr-1' title='Adicionar Promoção'>
-                            <?php if($promocao == 'Sim'){
-                              echo "<i class='fas fa-coins text-success'></i>";
-                            }else{
-                              echo "<i class='fas fa-coins text-danger'></i>";
-                            } ?>
-                            
+                                    <?php if ($promocao == 'Sim') {
+                                        echo "<i class='fas fa-coins text-success'></i>";
+                                    } else {
+                                        echo "<i class='fas fa-coins text-danger'></i>";
+                                    } ?>
 
-                          </a>
+
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>
@@ -437,7 +436,6 @@ $agora = date('Y-m-d');
 </div>
 
 <!-- MODAL PARA ADICIONAR PROMOÇÃO A UM PRODUTO -->
-
 <div class="modal" id="modalPromocao" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -447,97 +445,83 @@ $agora = date('Y-m-d');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-
-              <?php 
+                <?php
                 $id_pro = @$_GET['id'];
-                $res = $pdo->query("SELECT * FROM prod_promocao where id_produto = '$id_pro'"); 
+                $res = $pdo->query("SELECT * FROM prod_promocao where id_produto = '$id_pro'");
                 $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-                if(@count($dados) > 0){
-                  $valor_promo = $dados[0]['valor'];
-                  $data_ini = $dados[0]['data_inicio'];
-                  $data_fin = $dados[0]['data_final'];
-                  $ativo2 = $dados[0]['ativo'];
-                  $desconto = $dados[0]['desconto'];
-                  $editar = 'sim';
-                  $texto_promocao = 'Valor promocional deste produto: ' .$valor_promo;
-                }else{
-                  $editar = 'não';
-                  $data_ini = $agora;
-                  $data_fin = $agora;
+                if (@count($dados) > 0) {
+                    $valor_promo = $dados[0]['valor'];
+                    $data_ini = $dados[0]['data_inicio'];
+                    $data_fin = $dados[0]['data_final'];
+                    $ativo2 = $dados[0]['ativo'];
+                    $desconto = $dados[0]['desconto'];
+                    $editar = 'sim';
+                    $texto_promocao = 'Valor promocional deste produto: ' . $valor_promo;
+                } else {
+                    $editar = 'não';
+                    $data_ini = $agora;
+                    $data_fin = $agora;
                 }
-               ?>
+                ?>
 
+                <form method="post" id="form-promocao">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>% do desconto <small>(ex: 20, 30)</small></label>
+                                <input type="number" class="form-control" id="valor-promocao" name="valor-promocao" placeholder="Valor em %" value="<?php echo @$desconto ?>">
+                            </div>
+                        </div>
 
-            <form method="post" id="form-promocao">
-              
-              <div class="row">
-                <div class="col-md-6">
-                   <div class="form-group">
-                        <label >% do desconto <small>(ex: 20, 30)</small></label>
-                        <input  type="number" class="form-control" id="valor-promocao" name="valor-promocao" placeholder="Valor em %" value="<?php echo @$desconto ?>">
-                </div>
-                </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Ativo</label>
+                                <select class="form-control form-control-sm" name="ativo-promocao" id="ativo-promocao">
+                                    <?php
+                                    if (@$editar == 'sim') {
+                                        echo "<option value='" . $ativo2 . "' >" . $ativo2 . "</option>";
+                                    }
 
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label >Ativo</label>
-                     <select class="form-control form-control-sm" name="ativo-promocao" id="ativo-promocao">
-                                <?php 
-                                if (@$editar == 'sim') {
-                                   
-                                    echo "<option value='".$ativo2."' >" . $ativo2 . "</option>";
-                                }
+                                    if (@$ativo2 != "Sim") {
+                                        echo "<option value='Sim'>Sim</option>";
+                                    }
 
+                                    if (@$ativo2 != "Não") {
+                                        echo "<option value='Não'>Não</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
-                                  if(@$ativo2 != "Sim"){
-                                       echo "<option value='Sim'>Sim</option>"; 
-                                   }
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Data Inicio</label>
+                                <input type="date" class="form-control" id="data-inicial-promocao" name="data-inicial-promocao" value="<?php echo $data_ini ?>">
+                            </div>
+                        </div>
 
-                                    if(@$ativo2 != "Não"){
-                                       echo "<option value='Não'>Não</option>"; 
-                                   }
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Data Final</label>
+                                <input type="date" class="form-control" id="data-final-promocao" name="data-final-promocao" value="<?php echo $data_fin ?>">
+                            </div>
+                        </div>
+                    </div>
 
-                               ?>
-                           </select>               
-                     </div>
-                </div>
-              </div>
-                    
-                 
-                <div class="row">
-                  <div class="col-md-6">
-                     <div class="form-group">
-                        <label >Data Inicio</label>
-                        <input  type="date" class="form-control" id="data-inicial-promocao" name="data-inicial-promocao" value="<?php echo $data_ini ?>">
-                </div>
-                  </div>
-
-                  <div class="col-md-6">
-                       <div class="form-group">
-                        <label >Data Final</label>
-                        <input  type="date" class="form-control" id="data-final-promocao" name="data-final-promocao" value="<?php echo $data_fin ?>">
-                </div>
-                  </div>
-                
-
-
-                   
-                 </div>
-
-                
-                <p class="text-info"><span style='color:blue; font-weight:bold;'><?php echo @$texto_promocao ;?></span></p>
-
-                <div align="center" id="mensagem_promocao" class="">
-
-                </div>
-
+                    <p class="text-info"><span style='color:blue; font-weight:bold;'><?php echo @$texto_promocao; ?></span></p>
+                    <div align="center" id="mensagem_promocao" class=""></div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-promocao">Cancelar</button>
-               
-                    <input type="hidden" name="id-promocao" id="id-promocao" value="<?php echo @$_GET['id'] ?>">                  
-                    <button type="button" id="btn-promocao" name="btn-promocao" class="btn btn-info">Salvar</button>
+
+                <input type="hidden" name="id-promocao" id="id-promocao" value="<?php echo @$_GET['id'] ?>">
+                <button type="button" id="btn-promocao" name="btn-promocao" class="btn btn-info">Salvar</button>
                 </form>
             </div>
         </div>
@@ -804,26 +788,25 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "promocao") {
 </script>
 
 <script type="text/javascript">
-    $('#btn-promocao').click(function(event){
+    $('#btn-promocao').click(function(event) {
         event.preventDefault();
-        var pag = "<?=$pag?>";
+        var pag = "<?= $pag ?>";
         $.ajax({
             url: pag + "/add-promocao.php",
-            method:"post",
+            method: "post",
             data: $('#form-promocao').serialize(),
             dataType: "text",
-            success: function(msg){
-                if(msg.trim() === 'Salvo com Sucesso!!'){
+            success: function(msg) {
+                if (msg.trim() === 'Salvo com Sucesso!!') {
 
                     $('#btn-cancelar-promocao').click();
-                    window.location = "index.php?pag="+pag;
-                    }
-                 else{
+                    window.location = "index.php?pag=" + pag;
+                } else {
                     $('#mensagem_promocao').addClass('text-danger')
                     $('#mensagem_promocao').text(msg);
-                   
 
-                 }
+
+                }
             }
         })
     })

@@ -57,16 +57,16 @@ require_once("config.php");
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
                 <li class="active"><a href="./index.php">Início</a></li>
-                <li><a href="./produtos.php">Promoções</a></li>
-                <li><a href="./produtos-lista.php">Produtos</a></li>
+                <li><a href="./produtosLista.php">Produtos</a>
+                    <ul class="header__menu__dropdown">
+                        <li><a href="./categorias.php">Categorias</a></li>
+                        <li><a href="./subcategorias.php">Subcategorias</a></li>
+                        <li><a href="./promocao.php">Promoções</a></li>
+                        <li><a href="./produtosLista.php">Todos os Produtos</a></li>
+                    </ul>
+                </li>
                 <li><a href="./carrinho.php">Carrinho de Compras</a></li>
                 <li><a href="./contato.php">Contatos</a></li>
-                <!-- <ul class="header__menu__dropdown">
-                        <li><a href="./produtos-lista">Lista de Produtos</a></li>
-                        
-                        <li><a href="./checkout.php">Check Out</a></li>
-                    </ul>
-                </li> -->
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -126,20 +126,16 @@ require_once("config.php");
                     <nav class="header__menu">
                         <ul>
                             <li class="active"><a href="./index.php">Início</a></li>
-                            <li><a href="./produtos.php">Promoções</a></li>
-                            <li><a href="./produtos-lista.php">Produtos</a></li>
-                            <li><a href="./carrinho.php">Compras</a></li>
-                            <li><a href="./contato.php">Contatos</a></li>
-                            <!-- <li class="active"><a href="./index.php">Início</a></li>
-                            <li><a href="#">Categorias</a></li>
-                            <li><a href="#">Produtos</a>
+                            <li><a href="./produtosLista.php">Produtos</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="#">Lista de Produtos</a></li>
-                                    <li><a href="#">Carrinho de Compras</a></li>
-                                    <li><a href="#">Check Out</a></li>
+                                    <li><a href="./categorias.php">Categorias</a></li>
+                                    <li><a href="./subcategorias.php">Subcategorias</a></li>
+                                    <li><a href="./promocao.php">Promoções</a></li>
+                                    <li><a href="./produtosLista.php">Todos os Produtos</a></li>
                                 </ul>
                             </li>
-                            <li><a href="#">Contatos</a></li> -->
+                            <li><a href="./carrinho.php">Carrinho de Compras</a></li>
+                            <li><a href="./contato.php">Contatos</a></li>
                         </ul>
                     </nav>
                 </div>

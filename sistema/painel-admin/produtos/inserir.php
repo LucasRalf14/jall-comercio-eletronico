@@ -43,13 +43,24 @@ if ($valor == "") {
 	exit();
 }
 
+if ($nome != $antigo) {
+	$res = $pdo->query("SELECT * FROM produtos WHERE nome = '$nome'");
+	$dados = $res->fetchAll(PDO::FETCH_ASSOC);
+
+	if (@count($dados) > 0) {
+		echo 'Produto já cadastrado!';
+		exit();
+	}
+}
+
 //SCRIPT PARA SUBIR FOTO NO BANCO
-$caminho = '../../../img/produtos/' .@$_FILES['imagem']['name'];
+$nome_img = preg_replace('/[ -]+/' , '-' , @$_FILES['imagem']['name']);
+$caminho = '../../../img/produtos/' .$nome_img;
 
 if (@$_FILES['imagem']['name'] == "") {
   $imagem = "sem-foto.jpg";
 } else {
-  $imagem = @$_FILES['imagem']['name']; 
+  $imagem = $nome_img;
 }
 
 $imagem_temp = @$_FILES['imagem']['tmp_name']; 
