@@ -1,5 +1,4 @@
 <?php
-
 require_once("../../conexao.php");
 
 $nome = $_POST['nome_admin'];
@@ -57,5 +56,4 @@ $result->bindValue(":id", $id_admin);
 $result->execute();
 
 echo 'Salvo com Sucesso!';
-
 ?>
