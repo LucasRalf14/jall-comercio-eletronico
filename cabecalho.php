@@ -9,7 +9,6 @@ $id_usuario = @$_SESSION['id_usuario'];
 //VERIFICAR TOTAIS DO CARRINHO
 $res = $pdo->query("SELECT * from carrinho where id_usuario = '$id_usuario' and id_venda = 0 order by id_carrinho asc");
 $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-
 $linhas = @count($dados);
 
 if ($linhas == 0) {
@@ -32,7 +31,6 @@ for ($i = 0; $i < count($dados); $i++) {
     //} else {
     $res_p = $pdo->query("SELECT * from produtos where id_produtos = '$id_produto' ");
     //}
-
     $dados_p = $res_p->fetchAll(PDO::FETCH_ASSOC);
 
     // ($combo == 'Sim') { 
@@ -57,7 +55,6 @@ for ($i = 0; $i < count($dados); $i++) {
 }
 
 @$total_c = number_format(@$total, 2, ',', '.');
-
 ?>
 
 <!DOCTYPE html>
@@ -96,6 +93,7 @@ for ($i = 0; $i < count($dados); $i++) {
 
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>
+
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
             <a href="index.php"><img src="img/logo.png" alt=""></a>
@@ -103,16 +101,18 @@ for ($i = 0; $i < count($dados); $i++) {
 
         <div class="humberger__menu__cart">
             <ul>
-                <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span> <?php echo $linhas ?> </span></a></li>
+                <li><a href="carrinho.php"><i class="fa fa-shopping-bag"></i> <span> <?php echo $linhas ?> </span></a></li>
             </ul>
 
-            <div class="header__cart__price">item: <span>R R$ <?php echo $total_c ?> </span></div>
+            <div class="header__cart__price">item: <span>R$ <?php echo $total_c ?> </span></div>
 
             <div class="header__top__right__auth ml-4">
                 <?php
-                if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel'] != 'Cliente') {
+                if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Cliente') {
                 ?>
-                    <a href="sistema/index.php"><i class="fa fa-user"></i>Painel</a>
+                    <a href="sistema"><i class="fa fa-user"></i> Login</a>
+                <?php } else { ?>
+                    <a href="sistema/painel-cliente"><i class="fa fa-user"></i> Painel</a>
                 <?php } ?>
             </div>
         </div>
@@ -177,7 +177,7 @@ for ($i = 0; $i < count($dados); $i++) {
 
                             <div class="header__top__right__auth">
                                 <?php
-                                if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel'] != 'Cliente') {
+                                if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Cliente') {
                                 ?>
                                     <a href="sistema"><i class="fa fa-user"></i>Login</a>
                                 <?php } else { ?>
@@ -201,17 +201,17 @@ for ($i = 0; $i < count($dados); $i++) {
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="./index.php">Início</a></li>
-                            <li><a href="./produtosLista.php">Produtos</a>
+                            <li class="active"><a href="index.php">Início</a></li>
+                            <li><a href="produtosLista.php">Produtos</a>
                                 <ul class="header__menu__dropdown">
-                                    <li><a href="./categorias.php">Categorias</a></li>
-                                    <li><a href="./subcategorias.php">Subcategorias</a></li>
-                                    <li><a href="./promocao.php">Promoções</a></li>
-                                    <li><a href="./produtosLista.php">Todos os Produtos</a></li>
+                                    <li><a href="categorias.php">Categorias</a></li>
+                                    <li><a href="subcategorias.php">Subcategorias</a></li>
+                                    <li><a href="promocao.php">Promoções</a></li>
+                                    <li><a href="produtosLista.php">Todos os Produtos</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./carrinho.php">Carrinho de Compras</a></li>
-                            <li><a href="./contato.php">Contatos</a></li>
+                            <li><a href="carrinho.php">Carrinho de Compras</a></li>
+                            <li><a href="contato.php">Contatos</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -219,7 +219,7 @@ for ($i = 0; $i < count($dados); $i++) {
                 <div class="col-lg-3">
                     <div class="header__cart">
                         <ul>
-                            <li><a href="./carrinho.php"><i class="fa fa-shopping-bag"></i> <span><?php echo $linhas ?></span></a></li>
+                            <li><a href="carrinho.php"><i class="fa fa-shopping-bag"></i> <span><?php echo $linhas ?></span></a></li>
                         </ul>
 
                         <div class="header__cart__price">item: <span>R$ <?php echo $total_c ?></span></div>
