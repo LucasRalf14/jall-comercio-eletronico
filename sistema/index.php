@@ -1,15 +1,15 @@
 <?php
-    require_once("../conexao.php");
-    
-    //VERIFICAR SE EXISTE ALGUM CADASTRO NO BANCO, SE NÃO TIVER CADASTRA USUARIO ADMINISTRADOR
-    $res = $pdo->query("SELECT * FROM usuario");
-    $dados = $res->fetchAll(PDO::FETCH_ASSOC);
-    $senha_crip = md5('jall123');
-    
-    if(@count($dados) == 0){
-        $res = $pdo->query("INSERT into usuario (nome, cpf, email, senha, senha_crip, nivel) 
+require_once("../conexao.php");
+
+//VERIFICAR SE EXISTE ALGUM CADASTRO NO BANCO, SE NÃO TIVER CADASTRA USUARIO ADMINISTRADOR
+$res = $pdo->query("SELECT * FROM usuario");
+$dados = $res->fetchAll(PDO::FETCH_ASSOC);
+$senha_crip = md5('jall123');
+
+if (@count($dados) == 0) {
+    $res = $pdo->query("INSERT into usuario (nome, cpf, email, senha, senha_crip, nivel) 
         values ('Administrador', '000.000.000-01', 'jall@gmail.com', 'jall123', '$senha_crip', 'Admin')");
-    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -46,16 +46,19 @@
                         </div>
                         <form action="autenticar.php" method="post" name="login">
                             <div class="form-group">
-                            <label for="exampleInputEmail1">Email ou CPF</label>
+                                <label for="exampleInputEmail1">Email ou CPF</label>
                                 <input type="text" name="email_login" class="form-control" id="email_login" aria-describedby="emailHelp" placeholder="Insira o seu email">
                             </div>
+
                             <div class="form-group">
-                            <label for="exampleInputEmail1">Senha</label>
+                                <label for="exampleInputEmail1">Senha</label>
                                 <input type="password" name="senha_login" id="senha_login" class="form-control" aria-describedby="emailHelp" placeholder="Insira a sua senha">
                             </div>
+
                             <div class="form-group">
                                 <p class="text-center">Ao se cadastrar você concorda com os nossos<br /> <a href="#">Termos de Uso</a></p>
                             </div>
+
                             <div class="col-md-12 text-center ">
                                 <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm">Login</button>
                             </div>
@@ -65,7 +68,6 @@
                                 <p class="text-center"><a href="#" class="text-danger" data-toggle="modal" data-target="#modalRecuperar">Recuperar senha</a></p>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -77,7 +79,6 @@
 <script src="../js/login.js"></script>
 <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
 
 </html>
 
@@ -97,27 +98,33 @@
                         <label for="nome">Nome Completo</label>
                         <input type="text" class="form-control" name="nome" id="nome" placeholder="Insira o seu nome completo">
                     </div>
+
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" class="form-control" id="email" name="email" placeholder="Insira o seu email">
                     </div>
+
                     <div class="form-group">
                         <label for="cpf">CPF</label>
                         <input type="text" class="form-control" name="cpf" id="cpf" placeholder="Insira o seu cpf">
                     </div>
+
                     <div class="form-group">
                         <label for="senha">Senha</label>
                         <input type="password" class="form-control" name="senha" id="senha" placeholder="Insira a sua senha">
                     </div>
+
                     <div class="form-group">
                         <label for="conf-senha">Confirmar Senha</label>
                         <input type="password" class="form-control" name="conf-senha" id="conf-senha" placeholder="Insira novamente a sua senha">
                     </div>
-            
-            <small><div id="div-mensagem"></div></small>
+
+                    <small>
+                        <div id="div-mensagem"></div>
+                    </small>
             </div>
+
             <div class="modal-footer">
-            
                 <button type="button" id="btn-fechar-cadastrar" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" id="btn-cadastrar" class="btn btn-info">Cadastrar</button>
             </div>
@@ -136,6 +143,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
                 <form method="post">
                     <div class="form-group">
@@ -144,7 +152,10 @@
                     </div>
             </div>
 
-            <small><div id="div-mensagem-rec"></div></small>
+            <small>
+                <div id="div-mensagem-rec"></div>
+            </small>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" id="btn-recuperar" class="btn btn-primary">Recuperar</button>
@@ -156,61 +167,53 @@
 
 <!-- btn-primary cadastrar-->
 <script type="text/javascript">
-    $('#btn-cadastrar').click(function(event){
+    $('#btn-cadastrar').click(function(event) {
         event.preventDefault();
-        
+
         $.ajax({
-            url:"cadastrar.php",
+            url: "cadastrar.php",
             method: "post",
             data: $('form').serialize(),
             dataType: "text",
-            success: function(msg){
-              if(msg.trim() === 'Cadastrado com Sucesso!'){
-                  
-                $('#div-mensagem').addClass('text-success')
-                $('#div-mensagem').text(msg);
-                $('#btn-fechar-cadastrar').click();
-                $('#email_login').val(document.getElementByID('email').value);
-                $('#senha_login').val(document.getElementByID('senha').value);
+            success: function(msg) {
+                if (msg.trim() === 'Cadastrado com Sucesso!') {
+                    $('#div-mensagem').addClass('text-success')
+                    $('#div-mensagem').text(msg);
+                    $('#btn-fechar-cadastrar').click();
+                    $('#email_login').val(document.getElementByID('email').value);
+                    $('#senha_login').val(document.getElementByID('senha').value);
+                } else {
+                    $('#div-mensagem').addClass('text-danger')
+                    $('#div-mensagem').text(msg);
                 }
-                else{
-                $('#div-mensagem').addClass('text-danger')
-                $('#div-mensagem').text(msg);
-              }
             }
         })
     })
 </script>
 
 <script type="text/javascript">
-    $('#btn-recuperar').click(function(event){
+    $('#btn-recuperar').click(function(event) {
         event.preventDefault();
-        
+
         $.ajax({
-            url:"recuperar.php",
-            method:"post",
+            url: "recuperar.php",
+            method: "post",
             data: $('form').serialize(),
             dataType: "text",
-            success: function(msg){
-                if(msg.trim() === 'Senha Enviada para o Email!'){
-                    
+            success: function(msg) {
+                if (msg.trim() === 'Senha Enviada para o Email!') {
                     $('#div-mensagem-rec').addClass('text-success')
                     $('#div-mensagem-rec').text(msg);
-                                        
-                    }else if(msg.trim() === 'Preencha o Campo Email!'){
-                      $('#div-mensagem-rec').addClass('text-success')
-                      $('#div-mensagem-rec').text(msg);
-
-                    }else if(msg.trim() === 'Este email não está cadastrado!'){
-                      $('#div-mensagem-rec').addClass('text-success')
-                      $('#div-mensagem-rec').text(msg);
-                    }
-                 else{
+                } else if (msg.trim() === 'Preencha o Campo Email!') {
+                    $('#div-mensagem-rec').addClass('text-success')
+                    $('#div-mensagem-rec').text(msg);
+                } else if (msg.trim() === 'Este email não está cadastrado!') {
+                    $('#div-mensagem-rec').addClass('text-success')
+                    $('#div-mensagem-rec').text(msg);
+                } else {
                     $('#div-mensagem-rec').addClass('text-danger')
                     $('#div-mensagem-rec').text('Deu erro ao Enviar o Formulário! Provavelmente seu servidor de hospedagem não está com permissão de envio habilitada ou você está em um servidor local');
-                   
-
-                 }
+                }
             }
         })
     })
