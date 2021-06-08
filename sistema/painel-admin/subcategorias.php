@@ -1,5 +1,4 @@
 <?php
-
 $pag = "subcategorias";
 require_once("../../conexao.php");
 
