@@ -1,5 +1,4 @@
 <?php
-
 $pag = "promocoes";
 require_once("../../conexao.php");
 
@@ -37,30 +36,30 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                         foreach ($res[$i] as $key => $value) {
                         }
 
-                    $nome = $res[$i]['titulo'];
-                    $ativo = $res[$i]['ativo'];
-                    $imagem = $res[$i]['imagem'];
-                    $id = $res[$i]['id_promo_banner'];
-                    $link = $res[$i]['link'];
+                        $nome = $res[$i]['titulo'];
+                        $ativo = $res[$i]['ativo'];
+                        $imagem = $res[$i]['imagem'];
+                        $id = $res[$i]['id_promo_banner'];
+                        $link = $res[$i]['link'];
                     ?>
 
-                    <tr>
-                        <td><a target="_blank" href="<?php echo $link ?>"> <?php echo $nome ?></a></td>
-                        <td><img src="../../img/promocoes/<?php echo $imagem ?>" width="80" height="50"></td>
-                        <td style="width:70px">
-                            <a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
-                            <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
-                                <?php 
-                                if($ativo == 'Sim'){
+                        <tr>
+                            <td><a target="_blank" href="<?php echo $link ?>"> <?php echo $nome ?></a></td>
+                            <td><img src="../../img/banner/<?php echo $imagem ?>" width="80" height="50"></td>
+                            <td style="width:70px">
+                                <a href="index.php?pag=<?php echo $pag ?>&funcao=editar&id=<?php echo $id ?>" class='text-primary mr-1' title='Editar Dados'><i class='far fa-edit'></i></a>
+                                <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
+                                <?php
+                                if ($ativo == 'Sim') {
                                     echo "<a href='index.php?pag=$pag&funcao=desativar&id=$id' class='mr-1' title='Desativar Promoção'>
                                     <i class='fas fa-check-square  text-success'></i></a>";
-                                }else{
+                                } else {
                                     echo "<a href='index.php?pag=$pag&funcao=ativar&id=$id' class='mr-1' title='Ativar Promoção'>
                                     <i class='far fa-check-square text-info'></i></a>";
                                 } ?>
-                        </td>
-                    </tr>
-            <?php   }  ?>
+                            </td>
+                        </tr>
+                    <?php   }  ?>
                 </tbody>
             </table>
         </div>
@@ -72,68 +71,59 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <?php 
-                    if (@$_GET['funcao'] == 'editar') {
-                        $titulo = "Editar Registro";
-                        $id2 = $_GET['id'];
+                <?php
+                if (@$_GET['funcao'] == 'editar') {
+                    $titulo = "Editar Registro";
+                    $id2 = $_GET['id'];
 
-                        $query = $pdo->query("SELECT * FROM promo_banners where id_promo_banner = '" . $id2 . "' ");
-                        $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                    $query = $pdo->query("SELECT * FROM promo_banners where id_promo_banner = '" . $id2 . "' ");
+                    $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-                        $nome2 = $res[0]['titulo'];
-                        $imagem2 = $res[0]['imagem'];
-                        $link = $res[0]['link'];                     
-
-                    } else {
-                        $titulo = "Inserir Registro";
-
+                    $nome2 = $res[0]['titulo'];
+                    $imagem2 = $res[0]['imagem'];
+                    $link = $res[0]['link'];
+                } else {
+                    $titulo = "Inserir Registro";
                 }
-
-
                 ?>
-                
+
                 <h5 class="modal-title" id="exampleModalLabel"><?php echo $titulo ?></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <form id="form" method="POST">
                 <div class="modal-body">
-
                     <div class="form-group">
-                        <label >Título</label>
+                        <label>Título</label>
                         <input value="<?php echo @$nome2 ?>" type="text" class="form-control" id="titulo-promo" name="titulo-promo" placeholder="Título">
                     </div>
 
-                      <div class="form-group">
-                        <label >Link</label>
+                    <div class="form-group">
+                        <label>Link</label>
                         <input value="<?php echo @$link ?>" type="text" class="form-control" id="link-promo" name="link-promo" placeholder="Link">
                     </div>
 
                     <div class="form-group">
-                        <label >Imagem</label>
-                        <input type="file" value="<?php echo @$imagem2 ?>"  class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
+                        <label>Imagem</label>
+                        <input type="file" value="<?php echo @$imagem2 ?>" class="form-control-file" id="imagem" name="imagem" onChange="carregarImg();">
                     </div>
 
-                    <?php if(@$imagem2 != ""){ ?>
-                    	 <img src="../../img/promocoes/<?php echo $imagem2 ?>" width="450" height="200" id="target">
-                 	<?php  }else{ ?>
-                    <img src="../../img/promocoes/sem-foto.jpg" width="450" height="200" id="target">
-                	<?php } ?>
-
+                    <?php if (@$imagem2 != "") { ?>
+                        <img src="../../img/banner/<?php echo $imagem2 ?>" width="450" height="200" id="target">
+                    <?php  } else { ?>
+                        <img src="../../img/banner/sem-foto.jpg" width="450" height="200" id="target">
+                    <?php } ?>
 
                     <small>
-                        <div id="mensagem">
-
-                        </div>
-                    </small> 
-
+                        <div id="mensagem"></div>
+                    </small>
                 </div>
-                
-                <div class="modal-footer">
 
-                <input value="<?php echo @$_GET['id'] ?>" type="hidden" name="txtid2" id="txtid2">
-                <input value="<?php echo @$nome2 ?>" type="hidden" name="antigo" id="antigo">
+                <div class="modal-footer">
+                    <input value="<?php echo @$_GET['id'] ?>" type="hidden" name="txtid2" id="txtid2">
+                    <input value="<?php echo @$nome2 ?>" type="hidden" name="antigo" id="antigo">
 
                     <button type="button" id="btn-fechar" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" name="btn-salvar" id="btn-salvar" class="btn btn-primary">Salvar</button>
@@ -154,28 +144,22 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-
                 <p>Deseja realmente Excluir este Registro?</p>
-
-                <div align="center" id="mensagem_excluir" class="">
-
-                </div>
-
+                <div align="center" id="mensagem_excluir" class=""></div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-excluir">Cancelar</button>
                 <form method="post">
-
-                    <input type="hidden" id="id"  name="id" value="<?php echo @$_GET['id'] ?>" required>
-
+                    <input type="hidden" id="id" name="id" value="<?php echo @$_GET['id'] ?>" required>
                     <button type="button" id="btn-deletar" name="btn-deletar" class="btn btn-danger">Excluir</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- MODAL PARA ATIVAR DE UMA PROMOÇÃO -->
 <div class="modal" id="modal-ativar" tabindex="-1" role="dialog">
@@ -187,21 +171,16 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-
                 <p>Deseja realmente Ativar essa promoção?</p>
-
-                <div align="center" id="mensagem_ativar" class="">
-
-                </div>
-
+                <div align="center" id="mensagem_ativar" class=""></div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-ativar">Cancelar</button>
                 <form method="post">
-
-                    <input type="hidden" id="id"  name="id" value="<?php echo @$_GET['id'] ?>" required>
-
+                    <input type="hidden" id="id" name="id" value="<?php echo @$_GET['id'] ?>" required>
                     <button type="button" id="btn-ativar" name="btn-ativar" class="btn btn-danger">Ativar</button>
                 </form>
             </div>
@@ -219,21 +198,16 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <div class="modal-body">
-
                 <p>Deseja realmente Desativar essa promoção?</p>
-
-                <div align="center" id="mensagem_ativar" class="">
-
-                </div>
-
+                <div align="center" id="mensagem_ativar" class=""></div>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-desativar">Cancelar</button>
                 <form method="post">
-
-                    <input type="hidden" id="id"  name="id" value="<?php echo @$_GET['id'] ?>" required>
-
+                    <input type="hidden" id="id" name="id" value="<?php echo @$_GET['id'] ?>" required>
                     <button type="button" id="btn-desativar" name="btn-desativar" class="btn btn-danger">Desativar</button>
                 </form>
             </div>
@@ -242,8 +216,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
 </div>
 
 <!-- VERIFICAÇÃO DE QUAL FUNÇÃO ESTÁ SENDO CHAMADA -->
-<?php 
-
+<?php
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "novo") {
     echo "<script>$('#modalDados').modal('show');</script>";
 }
@@ -263,7 +236,6 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "ativar") {
 if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
     echo "<script>$('#modal-desativar').modal('show');</script>";
 }
-
 ?>
 
 <!--AJAX PARA INSERÇÃO E EDIÇÃO DOS DADOS COM IMAGEM -->
@@ -285,7 +257,6 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
                     $('#btn-fechar').click();
                     window.location = "index.php?pag=" + pag;
                 } else {
-
                     $('#mensagem').addClass('text-danger')
                 }
 
@@ -310,9 +281,9 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
 
 <!-- AJAX PARA EXCLUIR UMA PROMOÇÃO -->
 <script type="text/javascript">
-    $(document).ready(function () {
-        var pag = "<?=$pag?>";
-        $('#btn-deletar').click(function (event) {
+    $(document).ready(function() {
+        var pag = "<?= $pag ?>";
+        $('#btn-deletar').click(function(event) {
             event.preventDefault();
 
             $.ajax({
@@ -320,14 +291,16 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
                 method: "post",
                 data: $('form').serialize(),
                 dataType: "text",
-                success: function (mensagem) {
-
+                
+                success: function(mensagem) {
                     if (mensagem.trim() === 'Excluído com Sucesso!!') {
                         $('#btn-cancelar-excluir').click();
                         window.location = "index.php?pag=" + pag;
                     }
+
                     $('#mensagem_excluir').addClass('text-danger')
                     $('#mensagem_excluir').text(mensagem)
+
                     window.location = "index.php?pag=" + pag;
                 },
             })
@@ -337,9 +310,10 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
 
 <!--AJAX PARA ATIVAR PROMOCAO -->
 <script type="text/javascript">
-    $(document).ready(function () {
-        var pag = "<?=$pag?>";
-        $('#btn-ativar').click(function (event) {
+    $(document).ready(function() {
+        var pag = "<?= $pag ?>";
+
+        $('#btn-ativar').click(function(event) {
             event.preventDefault();
 
             $.ajax({
@@ -347,11 +321,9 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
                 method: "post",
                 data: $('form').serialize(),
                 dataType: "text",
-                success: function (mensagem) {
+                success: function(mensagem) {
 
                     if (mensagem.trim() === 'Ativado com Sucesso!!') {
-
-
                         $('#btn-cancelar-ativar').click();
                         window.location = "index.php?pag=" + pag;
                     }
@@ -359,7 +331,6 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
                     $('#mensagem_ativar').addClass('text-danger')
                     $('#mensagem_ativar').text(mensagem)
                 },
-
             })
         })
     })
@@ -367,9 +338,9 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
 
 <!--AJAX PARA DESATIVAR PROMOCAO -->
 <script type="text/javascript">
-    $(document).ready(function () {
-        var pag = "<?=$pag?>";
-        $('#btn-desativar').click(function (event) {
+    $(document).ready(function() {
+        var pag = "<?= $pag ?>";
+        $('#btn-desativar').click(function(event) {
             event.preventDefault();
 
             $.ajax({
@@ -377,18 +348,15 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "desativar") {
                 method: "post",
                 data: $('form').serialize(),
                 dataType: "text",
-                success: function (mensagem) {
+                success: function(mensagem) {
 
                     if (mensagem.trim() === 'Desativado com Sucesso!!') {
-
-
                         $('#btn-cancelar-desativar').click();
                         window.location = "index.php?pag=" + pag;
                     }
 
                     $('#mensagem_desativar').text(mensagem)
                 },
-
             })
         })
     })

@@ -1,5 +1,4 @@
 <?php
-
 require_once("../../../conexao.php");
 
 $titulo = $_POST['titulo-promo'];
@@ -12,10 +11,9 @@ if ($titulo == "") {
 	exit();
 }
 
-
 //SCRIPT PARA SUBIR FOTO NA PASTA
 $nome_img = preg_replace('/[ -]+/', '-', @$_FILES['imagem']['name']); //MODULO 5
-$caminho = '../../../img/produtos/' . $nome_img;
+$caminho = '../../../img/banner/' . $nome_img;
 
 if (@$_FILES['imagem']['name'] == "") {
 	$imagem = "sem-foto.jpg";
@@ -26,6 +24,7 @@ if (@$_FILES['imagem']['name'] == "") {
 $imagem_temp = @$_FILES['imagem']['tmp_name'];
 
 $ext = pathinfo($imagem, PATHINFO_EXTENSION);
+
 if ($ext == 'png' or $ext == 'jpg' or $ext == 'jpeg' or $ext == 'gif') {
 	move_uploaded_file($imagem_temp, $caminho);
 } else {
@@ -38,7 +37,6 @@ if ($id == "") {
 	$res->bindValue(":imagem", $imagem);
 	$res->bindValue(":ativo", 'Não');
 } else {
-
 	if ($imagem == "sem-foto.jpg") {
 		$res = $pdo->prepare("UPDATE promo_banners SET titulo = :titulo, link = :link WHERE id_promo_banner = :id");
 	} else {
@@ -52,11 +50,6 @@ if ($id == "") {
 $res->bindValue(":titulo", $titulo);
 $res->bindValue(":link", $link);
 
-
-
-
-
 $res->execute();
-
 
 echo 'Salvo com Sucesso!!';
