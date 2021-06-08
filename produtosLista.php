@@ -167,7 +167,7 @@ $valor_final = @$_GET['valor-final'];
                                     
                                     <ul class="product__item__pic__hover">
                                         <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
 
@@ -183,7 +183,7 @@ $valor_final = @$_GET['valor-final'];
                                 <div class="product__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
                                     <ul class="product__item__pic__hover">
                                         <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
 
@@ -227,9 +227,6 @@ $valor_final = @$_GET['valor-final'];
 <!-- Product Section End -->
 
 <?php
+require_once("modal-carrinho.php");
 require_once("rodape.php");
 ?>
-
-</body>
-
-</html>
