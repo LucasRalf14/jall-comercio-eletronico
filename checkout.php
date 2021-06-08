@@ -141,7 +141,3 @@ require_once("cabecalho-busca.php");
 <?php
 require_once("rodape.php");
 ?>
-
-</body>
-
-</html>
