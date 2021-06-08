@@ -78,6 +78,7 @@ $nome_pag = 'promocao.php';
                                             <div class="latest-product__item__pic">
                                                 <img src="img/produtos/<?php echo $imagem ?>" alt="">
                                             </div>
+
                                             <div class="latest-product__item__text">
                                                 <h6><?php echo $nome ?></h6>
                                                 <span>R$ <?php echo $valor ?></span>
@@ -116,6 +117,7 @@ $nome_pag = 'promocao.php';
                                             <div class="latest-product__item__pic">
                                                 <img src="img/produtos/<?php echo $imagem ?>" alt="">
                                             </div>
+
                                             <div class="latest-product__item__text">
                                                 <h6><?php echo $nome ?></h6>
                                                 <span>R$ <?php echo $valor ?></span>
@@ -218,7 +220,7 @@ $nome_pag = 'promocao.php';
                                     
                                     <ul class="product__item__pic__hover">
                                         <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                        <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                     </ul>
                                 </div>
 
@@ -249,6 +251,7 @@ $nome_pag = 'promocao.php';
                         <?php
                         for ($i = 0; $i < @$num_paginas; $i++) {
                             $estilo = '';
+
                             if ($pagina == $i) {
                                 $estilo = 'bg-info text-light';
                             }
@@ -267,13 +270,9 @@ $nome_pag = 'promocao.php';
     </div>
 </section>
 
-
 <!-- Product Section End -->
 
 <?php
+require_once("modal-carrinho.php");
 require_once("rodape.php");
 ?>
-
-</body>
-
-</html>

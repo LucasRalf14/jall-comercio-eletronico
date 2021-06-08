@@ -88,6 +88,7 @@ require_once("rodape.php");
 <script type="text/javascript">
     $('#btn-enviar-email').click(function(event) {
         event.preventDefault();
+        
         $('#div-mensagem').addClass('text-info')
         $('#div-mensagem').removeClass('text-danger')
         $('#div-mensagem').removeClass('text-success')
