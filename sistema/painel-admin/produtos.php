@@ -7,18 +7,17 @@ require_once("../../conexao.php");
 if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') {
     echo "<script language='javascript'> window.location='../index.php' </script>";
 }
+
 $agora = date('Y-m-d');
 ?>
 
 <div class="row mt-4 mb-4">
     <a type="button" class="btn-primary btn-sm ml-3 d-none d-md-block" href="index.php?pag=<?php echo $pag ?>&funcao=novo">Novo Produto</a>
     <a type="button" class="btn-primary btn-sm ml-3 d-block d-sm-none" href="index.php?pag=<?php echo $pag ?>&funcao=novo">+</a>
-
 </div>
 
 <!-- DATATABLE -->
 <div class="card shadow mb-4">
-
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -87,8 +86,6 @@ $agora = date('Y-m-d');
                                     } else {
                                         echo "<i class='fas fa-coins text-danger'></i>";
                                     } ?>
-
-
                                 </a>
                             </td>
                         </tr>
@@ -138,9 +135,9 @@ $agora = date('Y-m-d');
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+
             <form id="form" method="POST">
                 <div class="modal-body">
-
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
@@ -148,6 +145,7 @@ $agora = date('Y-m-d');
                                 <input value="<?php echo @$nome2 ?>" type="text" class="form-control form-control-sm" id="nome-cat" name="nome-cat" placeholder="Nome">
                             </div>
                         </div>
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Categoria</label>
@@ -751,7 +749,6 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "promocao") {
 <!--SCRIPT PARA CARREGAR IMAGEM PRINCIPAL DO PRODUTO -->
 <script type="text/javascript">
     function carregarImg() {
-
         var target = document.getElementById('target');
         var file = document.querySelector("input[type=file]").files[0];
         var reader = new FileReader();
@@ -791,11 +788,13 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "promocao") {
     $('#btn-promocao').click(function(event) {
         event.preventDefault();
         var pag = "<?= $pag ?>";
+
         $.ajax({
             url: pag + "/add-promocao.php",
             method: "post",
             data: $('#form-promocao').serialize(),
             dataType: "text",
+
             success: function(msg) {
                 if (msg.trim() === 'Salvo com Sucesso!!') {
 
@@ -804,8 +803,6 @@ if (@$_GET["funcao"] != null && @$_GET["funcao"] == "promocao") {
                 } else {
                     $('#mensagem_promocao').addClass('text-danger')
                     $('#mensagem_promocao').text(msg);
-
-
                 }
             }
         })
