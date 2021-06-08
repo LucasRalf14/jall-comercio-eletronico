@@ -98,7 +98,7 @@ require_once("cabecalho-busca.php");
             <div class="col-lg-12">
                 <div class="shoping__cart__btns">
                     <a href="checkout.php" class="primary-btn cart-btn bg-info text-light"><span class="icon_loading"></span>Atualizar Carrinho</a>
-                    <a href="produtos-lista.php" class="primary-btn cart-btn cart-btn-right bg-info text-light">CONTINUAR COMPRANDO</a>
+                    <a href="produtosLista.php" class="primary-btn cart-btn cart-btn-right bg-info text-light">CONTINUAR COMPRANDO</a>
                 </div>
             </div>
             <div class="col-lg-6">
