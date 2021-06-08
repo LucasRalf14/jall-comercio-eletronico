@@ -1,5 +1,4 @@
 <?php
-
 $pag = "tipo-envios";
 require_once("../../conexao.php");
 
@@ -47,7 +46,7 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                                 <a href="index.php?pag=<?php echo $pag ?>&funcao=excluir&id=<?php echo $id ?>" class='text-danger mr-1' title='Excluir Registro'><i class='far fa-trash-alt'></i></a>
                             </td>
                         </tr>
-            <?php   }  ?>
+                    <?php   }  ?>
                 </tbody>
             </table>
         </div>
@@ -116,7 +115,6 @@ if (@$_SESSION['id_usuario'] == null || @$_SESSION['nivel_usuario'] != 'Admin') 
                 <p>Deseja realmente escluir este registro?</p>
                 <div id="mensagem_excluir" text-align="center" class=""></div>
             </div>
-
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btn-cancelar-excluir">Cancelar</button>
