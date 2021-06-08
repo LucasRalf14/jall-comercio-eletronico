@@ -1,6 +1,8 @@
 <?php
 require_once("cabecalho.php");
 require_once("conexao.php");
+
+@session_start();
 ?>
 
 <!-- Hero Section Begin -->
@@ -44,7 +46,7 @@ require_once("conexao.php");
 
                     <div class="hero__search__phone">
                         <div class="hero__search__phone__icon">
-                            <a href="" class="text-success">
+                            <a class="text-info" target="_blank" href="http://api.whatsapp.com/send?1=pt_BR&phone=<?php echo $whatsapp_link ?>" title="<?php echo $whatsapp ?>">
                                 <i class="fa fa-whatsapp"></i>
                             </a>
                         </div>
@@ -56,6 +58,7 @@ require_once("conexao.php");
                     </div>
                 </div>
 
+                <!-- ALTERAR O TEXTO DESSE BANNER -->
                 <div class="hero__item set-bg" data-setbg="img/banner-principal/banner_geforce.png">
                     <div class="hero__text">
                         <span> Placa de Vídeo ASUS </span>
@@ -125,7 +128,7 @@ require_once("conexao.php");
                 <div class="featured__controls">
                     <ul>
                         <?php
-                        $query = $pdo->query("SELECT * FROM sub_categorias order by id_sub_cat limit 5");
+                        $query = $pdo->query("SELECT * FROM sub_categorias order by id_sub_cat desc limit 5");
                         $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
                         for ($i = 0; $i < count($res); $i++) {
@@ -168,13 +171,13 @@ require_once("conexao.php");
                     $valor_promo = number_format($valor_promo, 2, ',', '.');
             ?>
 
-                    <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="product__discount__item">
                             <div class="product__discount__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
                                 <div class="product__discount__percent"><?php echo $desconto ?>%</div>
                                 <ul class="product__item__pic__hover">
                                     <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
 
@@ -185,12 +188,12 @@ require_once("conexao.php");
                         </div>
                     </div>
                 <?php } else { ?>
-                    <div class="col-lg-3 col-md-4 col-sm-6 mix hardware">
+                    <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="featured__item">
                             <div class="featured__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
                                 <ul class="featured__item__pic__hover">
                                     <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
 
@@ -228,7 +231,7 @@ require_once("conexao.php");
 
                 <div class="col-lg-6 col-md-6 col-sm-6">
                     <div class="banner__pic">
-                        <a href="<?php echo $link ?>" title="<?php echo $titulo ?>"> <img src="img/banner-secundario/<?php echo $imagem ?>" alt="<?php echo $titulo ?>"> </a>
+                        <a href="<?php echo $link ?>" title="<?php echo $titulo ?>"> <img src="img/banner/<?php echo $imagem ?>" alt="<?php echo $titulo ?>"> </a>
                     </div>
                 </div>
             <?php } ?>
@@ -288,7 +291,7 @@ require_once("conexao.php");
 
                                             <ul class="product__item__pic__hover">
                                                 <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                                <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                                <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                             </ul>
                                         </div>
 
@@ -306,7 +309,7 @@ require_once("conexao.php");
                             <div class="featured__item__pic set-bg" data-setbg="img/produtos/<?php echo $imagem ?>">
                                 <ul class="featured__item__pic__hover">
                                     <li><a href="produto-<?php echo $nome_url ?>"><i class="fa fa-eye"></i></a></li>
-                                    <li><a href="" onclick="carrinhoModal('<?php echo $id ?>','Não')"><i class="fa fa-shopping-cart"></i></a></li>
+                                    <li><a href="" onclick="carrinhoModal('<?php echo $id ?>, Não')"><i class="fa fa-shopping-cart"></i></a></li>
                                 </ul>
                             </div>
 
@@ -328,9 +331,6 @@ require_once("conexao.php");
 <!-- Latest Product Section End -->
 
 <?php
+require_once("modal-carrinho.php");
 require_once("rodape.php");
 ?>
-
-</body>
-
-</html>
