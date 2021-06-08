@@ -1,5 +1,4 @@
 <?php
-
 require_once("../conexao.php");
     @session_start();
 
@@ -21,13 +20,12 @@ require_once("../conexao.php");
     	}
 
     	if($_SESSION['nivel_usuario'] == 'Cliente'){
-    		echo "<script language='javascript'> window.location='painel-cliente' </script>";
+    		echo "<script language='javascript'> window.location='../' </script>";
     	}
 
     }else{
     	echo "<script language='javascript'> window.alert('Dados Incorretos!') </script>";
     	echo "<script language='javascript'> window.location='index.php' </script>";
-
     }
 
 ?>
