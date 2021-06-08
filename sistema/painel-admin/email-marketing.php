@@ -1,18 +1,16 @@
 <?php
-
-require_once("../../conexao.php"); 
+require_once("../../conexao.php");
 
 $assunto = $_POST['assunto-email'];
 $link = $_POST['link-email'];
 $mensagem = $_POST['mensagem-email'];
 
-
-if($assunto == ""){
+if ($assunto == "") {
 	echo 'Preencha o Campo Assunto!';
 	exit();
 }
 
-if($mensagem == ""){
+if ($mensagem == "") {
 	echo 'Preencha o Campo Mensagem!';
 	exit();
 }
@@ -20,17 +18,15 @@ if($mensagem == ""){
 $query = $pdo->query("SELECT * FROM email where ativo = 'Sim'");
 $res = $query->fetchAll(PDO::FETCH_ASSOC);
 
-for ($i=0; $i < count($res); $i++) { 
+for ($i = 0; $i < count($res); $i++) {
 	foreach ($res[$i] as $key => $value) {
-
 	}
 
-		$to = $res[$i]['email'];
-		$nome_cliente = $res[$i]['nome'];
-		$subject = "$assunto";
-		$url_descadastrar = $url_loja . 'descadastrar.php';
-		$message = "
-
+	$to = $res[$i]['email'];
+	$nome_cliente = $res[$i]['nome'];
+	$subject = "$assunto";
+	$url_descadastrar = $url_loja . 'descadastrar.php';
+	$message = "
 
 				Olá $nome_cliente, <br>
 				$mensagem !
@@ -49,17 +45,16 @@ for ($i=0; $i < count($res); $i++) {
 
 				";
 
-				$remetente = $email;
-				$headers = 'MIME-Version: 1.0' . "\r\n";
-				$headers .= 'Content-type: text/html; charset=utf-8;' . "\r\n";
+	$remetente = $email;
+	$headers = 'MIME-Version: 1.0' . "\r\n";
+	$headers .= 'Content-type: text/html; charset=utf-8;' . "\r\n";
 
-				if($to != $remetente){
-					$headers .= "From: " .$remetente;
-				}
-
-				mail($to, $subject, $message, $headers);
-
+	if ($to != $remetente) {
+		$headers .= "From: " . $remetente;
 	}
-	echo 'Enviado com Sucesso!';
 
-	?>
+	mail($to, $subject, $message, $headers);
+}
+
+echo 'Enviado com Sucesso!';
+?>
