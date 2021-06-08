@@ -1,5 +1,4 @@
 <?php
-
 require_once("../conexao.php");
 
 $nome = $_POST['nome'];
@@ -12,18 +11,22 @@ if($nome == ""){
     echo 'Preencha o Campo nome!';
     exit();
 }
+
 if($cpf == ""){
     echo 'Preencha o Campo cpf!';
     exit();
 }
+
 if($email == ""){
     echo 'Preencha o Campo email!';
     exit();
 }
+
 if($senha == ""){
     echo 'Preencha o Campo senha!';
     exit();
 }
+
 if($senha != $_POST['conf-senha']){
     echo 'Senhas são diferentes!';
     exit();
